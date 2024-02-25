@@ -67,31 +67,33 @@ public class Semisters extends B {
             ResultSet rs = pst.executeQuery();
             
             if (rs.next()) {
-                String ids = rs.getString("Id");
-                String ap = rs.getString("AP");
-                String prob_sol_c = rs.getString("PROB_SOL_C");
-                String dig_logic_des = rs.getString("DIG_LOGIC_DES");
-                String math_ii = rs.getString("MATH_II");
-                String math_iii = rs.getString("MATH_III");
-                String eng_exp_proj = rs.getString("ENG_EXP_PROJ");
-                String ap_lab = rs.getString("AP_LAB");
-                String prob_sol_c_lab = rs.getString("PROB_SOL_C_LAB");
-                String comm_skills_lab = rs.getString("COMM_SKILLS_LAB");
-                String constitution = rs.getString("CONSTITUTION");
-                
-                // Constructing the message with clear alignment
-                String comb = String.format("%-35s%-15s\n", "***Subject Name***", "***Grade***") +
-                              String.format("%-5s%-30s%-15s\n", "ID:", ids, "") +
-                              String.format("%-30s%-25s\n", "APPLIED_PHYSICS:", ap) +
-                              String.format("%-30s%-25s\n", "C_LANGUAGE:", prob_sol_c) +
-                              String.format("%-30s%-25s\n", "DIGITAL_L_DESIGN:", dig_logic_des) +
-                              String.format("%-30s%-25s\n", "MATHEMATICS_II:", math_ii) +
-                              String.format("%-30s%-25s\n", "MATHEMATICS_III:", math_iii) +
-                              String.format("%-30s%-25s\n", "ENG_E_PROJECT:", eng_exp_proj) +
-                              String.format("%-30s%-25s\n", "PHYSICS_LAB:", ap_lab) +
-                              String.format("%-30s%-25s\n", "C_LAB:", prob_sol_c_lab) +
-                              String.format("%-30s%-25s\n", "COMM_SKILLS_LAB:", comm_skills_lab) +
-                              String.format("%-30s%-25s\n", "CONST_OF_INDIA:", constitution);
+                String[] subjects = {"ID:", "APPLIED_PHYSICS:", "C_LANGUAGE:",
+                                     "DIGITAL_L_DESIGN:", "MATHEMATICS_II:", "MATHEMATICS_III:",
+                                     "ENG_E_PROJECT:", "PHYSICS_LAB:",
+                                     "C_LAB:", "COMM_SKILLS_LAB:",
+                                     "CONST_OF_INDIA:"};
+                String[] grades = {rs.getString("Id"), rs.getString("AP"), rs.getString("PROB_SOL_C"), rs.getString("DIG_LOGIC_DES"),
+                                    rs.getString("MATH_II"), rs.getString("MATH_III"), rs.getString("ENG_EXP_PROJ"),
+                                    rs.getString("AP_LAB"), rs.getString("PROB_SOL_C_LAB"), rs.getString("COMM_SKILLS_LAB"),
+                                    rs.getString("CONSTITUTION")};
+
+                // Find the maximum length of the subject names
+                int maxLength = 0;
+                for (String subject : subjects) {
+                    if (subject.length() > maxLength) {
+                        maxLength = subject.length();
+                    }
+                }
+
+                // Construct the tabular format
+                List<String> rows = new ArrayList<>();
+                rows.add(String.format("%-" + (maxLength + 5) + "s%-25s", "***Subject Name***", "***Grade***"));
+                for (int i = 0; i < subjects.length; i++) {
+                    rows.add(String.format("%-" + (maxLength + 5) + "s%-25s", subjects[i], grades[i]));
+                }
+
+                // Join the rows to create the output string
+                String comb = String.join("\n", rows);
 
                 SendMessage message = new SendMessage();
                 message.setChatId(chat_id);
@@ -106,7 +108,6 @@ public class Semisters extends B {
             e.printStackTrace();
         }
     }
-
 
 
     

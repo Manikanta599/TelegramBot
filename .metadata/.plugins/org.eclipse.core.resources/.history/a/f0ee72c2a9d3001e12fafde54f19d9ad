@@ -57,8 +57,6 @@ public class Semisters extends B {
     }
     
     
-   
-
     public void Sem2(long chat_id, String id) {
         try {
             String query = "SELECT * FROM sem2 WHERE Id=?";
@@ -79,20 +77,19 @@ public class Semisters extends B {
                 String comm_skills_lab = rs.getString("COMM_SKILLS_LAB");
                 String constitution = rs.getString("CONSTITUTION");
                 
-                // Constructing the message with clear alignment
-                String comb = String.format("%-35s%-15s\n", "***Subject Name***", "***Grade***") +
-                              String.format("%-5s%-30s%-15s\n", "ID:", ids, "") +
-                              String.format("%-30s%-25s\n", "APPLIED_PHYSICS:", ap) +
-                              String.format("%-30s%-25s\n", "C_LANGUAGE:", prob_sol_c) +
-                              String.format("%-30s%-25s\n", "DIGITAL_L_DESIGN:", dig_logic_des) +
-                              String.format("%-30s%-25s\n", "MATHEMATICS_II:", math_ii) +
-                              String.format("%-30s%-25s\n", "MATHEMATICS_III:", math_iii) +
-                              String.format("%-30s%-25s\n", "ENG_E_PROJECT:", eng_exp_proj) +
-                              String.format("%-30s%-25s\n", "PHYSICS_LAB:", ap_lab) +
-                              String.format("%-30s%-25s\n", "C_LAB:", prob_sol_c_lab) +
-                              String.format("%-30s%-25s\n", "COMM_SKILLS_LAB:", comm_skills_lab) +
-                              String.format("%-30s%-25s\n", "CONST_OF_INDIA:", constitution);
-
+                String comb = "***Subject Name***"+"                "+"***Grade***"+
+                              "ID: "                                      + ids + "\n" +
+                              "APPLIED_PHYSICS:                         " + ap + "\n" +
+                              "PROGRAMMING_FOR_PROBLEM_SOLVING_USING_C: " + prob_sol_c + "\n" +
+                              "DIGITAL_LOGIC_DESIGN: "                    + dig_logic_des + "\n" +
+                              "MATHEMATICS_II: "                          + math_ii + "\n" +
+                              "MATHEMATICS_III: "                         + math_iii + "\n" +
+                              "ENGINEERING_EXPLORATION_PROJECT: "         + eng_exp_proj + "\n" +
+                              "APPLIED_PHYSICS_LAB: "                     + ap_lab + "\n" +
+                              "PROGRAM_FOR_PROBLEM_SOLVING_USING_C_LAB: " + prob_sol_c_lab + "\n" +
+                              "COMMUNICATIONS_SKILLS_LAB: "               + comm_skills_lab + "\n" +
+                              "CONSTITUTION_OF_INDIA: "                   + constitution;
+                
                 SendMessage message = new SendMessage();
                 message.setChatId(chat_id);
                 message.setText(comb);
@@ -106,8 +103,6 @@ public class Semisters extends B {
             e.printStackTrace();
         }
     }
-
-
 
     
     

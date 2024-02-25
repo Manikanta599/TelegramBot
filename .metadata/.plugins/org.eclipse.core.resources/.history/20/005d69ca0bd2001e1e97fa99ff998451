@@ -1,0 +1,196 @@
+package com.Telegram.bot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+
+public class Semisters extends B {
+	Connection con;
+    
+    public Semisters(Connection con)
+    {
+    	this.con=con;
+    }
+
+    public void Sem1(long chat_id, String id) {
+        
+        try {
+            
+            String query = "SELECT * FROM sem1 WHERE ID=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                String ids = rs.getString("ID");
+                String m1 = rs.getString("mathematics1");
+                String eng = rs.getString("english");
+                String che = rs.getString("chemistry");
+                String fc = rs.getString("fcs");
+                String ed = rs.getString("ed");
+                String eng_l = rs.getString("eng_lab");
+                String che_l = rs.getString("che_l");
+                String fc_lab = rs.getString("fc_lab");
+                String combinedMessage ="ID"+ids + "\n" +"Mathematics 1"+ m1 + "\n" +"English"+ eng + "\n"+"Chemistry" + che + "\n"+"Fundementals of C.S" + fc + "\n" +"Engineering Drawing"+ ed + "\n"
+                        +"English Lab"+ eng_l + "\n"+"Chemistry lab" + che_l + "\n" +"FCS Lab"+ fc_lab;
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(combinedMessage);
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    public void sem2(long chat_id, String id)
+    {
+    	try
+    	{
+    		String query = "SELECT * FROM sem1 WHERE ID=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+            	String ids=rs.getString("id");
+            	String ap=rs.getString("APPLIED_PHYSICS");
+            	String c=rs.getString("PROGRAMMING_FOR_PROBLEM_SOLVING_USING_C");
+            	String dld=rs.getString("DIGITAL_LOGIC_DESIGN");
+            	String m2=rs.getString("MATHEMATICS_II");
+            	String m3=rs.getString("MATHEMATICS_III");
+            	String apl=rs.getString("APPLIED_PHYSICS_LAB");
+            	String c_l=rs.getString(" PROGRAM_FOR_PROBLEM_SOLVING_USING_C_LAB");
+            	String com_l=rs.getString("COMMUNICATIONS_SKILLS_LAB");
+            	String con_ind=rs.getString("CONSTITUTION_OF_INDIA");
+            	
+            	String comb="id   "+ids+"\n"+
+            	"APPLIED_PHYSICS"+ap+"\n"+
+            	"PROGRAMMING_FOR_PROBLEM_SOLVING_USING_C"+c+"\n"+"DIGITAL_LOGIC_DESIGN"+dld+"\n"+"MATHEMATICS_II"
+            	+m2+"MATHEMATICS_III"+m3+"\n"+"APPLIED_PHYSICS_LAB"+apl+"\n"+"PROGRAM_FOR_PROBLEM_SOLVING_USING_C_LAB"+c_l+"\n"+
+            	"COMMUNICATIONS_SKILLS_LAB"+com_l+"\n"+"CONSTITUTION_OF_INDIA"+con_ind;
+            	
+            	
+            	SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+            	
+            }
+    
+    
+    
+    public void sem3(long chat_id, String id) {
+        try {
+            String query = "SELECT * FROM sem3 WHERE ID=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                String ids = rs.getString("ID");
+                String sw_eng = rs.getString("SW_ENG");
+                String py_prog = rs.getString("PY_PROG");
+                String ds = rs.getString("DS");
+                String comp_org = rs.getString("COMP_ORG");
+                String oop_cpp = rs.getString("OOP_CPP");
+                String math_found_cs = rs.getString("MATH_FOUND_CS");
+                String ds_cpp_lab = rs.getString("DS_CPP_LAB");
+                String py_prog_lab = rs.getString("PY_PROG_LAB");
+                String em_skills = rs.getString("EM_SKILLS");
+                String indian_knowledge = rs.getString("INDIAN_KNOWLEDGE");
+                
+                String comb = "ID: " + ids + "\n" +
+                              "SOFTWARE_ENGINEERING: " + sw_eng + "\n" +
+                              " PYTHON_PROGRAMMING: " + py_prog + "\n" +
+                              "DATA_STRUCTURES : " + ds + "\n" +
+                              "COMPUTER_ORGANIZATION: " + comp_org + "\n" +
+                              "OBJECT_ORIENTED_PROGRAMM_THROUGH_CPP: " + oop_cpp + "\n" +
+                              "MATHEMATICAL_FOUNDATIONS_OF_COMPUTER_SCIENCE: " + math_found_cs + "\n" +
+                              "DATA_STRUCTURES_THROUGH_CPP_LAB: " + ds_cpp_lab + "\n" +
+                              "PYTHON_PROGRAMMING_LAB: " + py_prog_lab + "\n" +
+                              "EMPLOYABILITY_SKILLS_I: " + em_skills + "\n" +
+                              "ESSENCE_OF_INDIAN_TRADITIONAL_KNOWLEDGE: " + indian_knowledge;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    
+    public void sem4(long chat_id, String id) {
+        try {
+            String query = "SELECT * FROM sem4 WHERE ID=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                String ids = rs.getString("ID");
+                String os = rs.getString("OS");
+                String dbms = rs.getString("DBMS");
+                String flat = rs.getString("FLAT");
+                String prob_stats = rs.getString("PROB_STATS");
+                String java = rs.getString("JAVA");
+                String sr_project = rs.getString("SR_PROJECT");
+                String java_lab = rs.getString("JAVA_LAB");
+                String dbms_lab = rs.getString("DBMS_LAB");
+                String unix_lab = rs.getString("UNIX_LAB");
+                String ethics = rs.getString("ETHICS");
+                
+                String comb = "ID: " + ids + "\n" +
+                              "OPERATING_SYSTEMS: " + os + "\n" +
+                              "DATABASE_MANAGEMENT_SYSTEMS: " + dbms + "\n" +
+                              "FORMAL_LANGUAGES_AND_AUTOMATA_THEORY: " + flat + "\n" +
+                              "PROBABILITY_AND_STATISTICS: " + prob_stats + "\n" +
+                              "JAVA_PROGRAMMING: " + java + "\n" +
+                              "SOCIALLY_RELEVANT_PROJECT: " + sr_project + "\n" +
+                              "JAVA_PROGRAMMING_LAB: " + java_lab + "\n" +
+                              "DATABASE_MANAGEMENT_SYSTEMS_LAB: " + dbms_lab + "\n" +
+                              "UNIX_OPERATING_SYSTEMS_LAB: " + unix_lab + "\n" +
+                              "PROFESSIONAL_ETHICS_AND_HUMAN_VALUES: " + ethics;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    	
+    }
+

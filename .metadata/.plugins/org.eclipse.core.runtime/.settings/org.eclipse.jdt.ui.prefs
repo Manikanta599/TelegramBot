@@ -1,0 +1,10 @@
+content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="com.Telegram.bot.B"><rhs name\="com.Telegram.bot.Profile"/></lhs><lhs name\="org.telegram.telegrambots.bots.TelegramLongPollingBot"><rhs name\="com.Telegram.bot.Profile"/></lhs><lhs name\="org.telegram.telegrambots.meta.generics.LongPollingBot"><rhs name\="com.Telegram.bot.Profile"/></lhs><lhs name\="org.telegram.telegrambots.meta.generics.TelegramBot"><rhs name\="com.Telegram.bot.Profile"/></lhs><lhs name\="org.telegram.telegrambots.bots.DefaultAbsSender"><rhs name\="com.Telegram.bot.Profile"/></lhs><lhs name\="org.telegram.telegrambots.meta.bots.AbsSender"><rhs name\="com.Telegram.bot.Profile"/></lhs><lhs name\="com.Telegram.bot.Profile"><rhs name\="com.Telegram.bot.Profile"/></lhs><lhs name\="com.Telegram.bot.Semisters"><rhs name\="com.Telegram.bot.Semisters"/></lhs></history>
+content_assist_number_of_computers=17
+eclipse.preferences.version=1
+org.eclipse.jdt.internal.ui.navigator.layout=2
+org.eclipse.jdt.internal.ui.navigator.librariesnode=true
+org.eclipse.jdt.ui.formatterprofiles.version=23
+spelling_locale_initialized=true
+typefilter_migrated_2=true
+useAnnotationsPrefPage=true
+useQuickDiffPrefPage=true

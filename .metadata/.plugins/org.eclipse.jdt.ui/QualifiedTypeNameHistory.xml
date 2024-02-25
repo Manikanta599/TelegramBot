@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="org.telegram.telegrambots.bots.TelegramLongPollingBot"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.x.protobuf.MysqlxCrud.Update"/>
+    <fullyQualifiedTypeName name="org.telegram.telegrambots.meta.api.objects.PhotoSize"/>
+    <fullyQualifiedTypeName name="java.util.Comparator"/>
+    <fullyQualifiedTypeName name="org.telegram.telegrambots.meta.api.methods.send.SendPhoto"/>
+    <fullyQualifiedTypeName name="org.telegram.telegrambots.Constants"/>
+    <fullyQualifiedTypeName name="org.telegram.telegrambots.meta.api.methods.send.SendMessage"/>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
+    <fullyQualifiedTypeName name="org.telegram.telegrambots.meta.TelegramBotsApi"/>
+    <fullyQualifiedTypeName name="org.telegram.telegrambots.meta.exceptions.TelegramApiException"/>
+    <fullyQualifiedTypeName name="org.telegram.telegrambots.updatesreceivers.DefaultBotSession"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="com.Telegram.bot.Profile"/>
+    <fullyQualifiedTypeName name="com.Telegram.bot.Semisters"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+    <fullyQualifiedTypeName name="java.sql.DriverManager"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+</qualifiedTypeNameHistroy>

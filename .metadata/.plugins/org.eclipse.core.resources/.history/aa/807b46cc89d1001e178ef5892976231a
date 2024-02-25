@@ -1,0 +1,8 @@
+package com.Telegram.bot;
+class Profile extends B
+{
+	public void info()
+	{
+		System.out.println("info..");
+	}
+}

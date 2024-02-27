@@ -1,0 +1,730 @@
+package com.Telegram.bot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.util.HashMap;
+public class Semisters extends B {
+	Connection con;
+	HashMap<String, Integer> gradeVal = new HashMap<>();
+	static double sem1Spga=0.0;
+	static double sem2Spga=0.0;
+	static double sem3Spga=0.0;
+	static double sem4Spga=0.0;
+	static double sem5Spga=0.0;
+	static double sem6Spga=0.0;
+	static double sem7Spga=0.0;
+	static double sem8Spga=0.0;
+	
+
+    // Adding grade-value pairs to the HashMap
+   
+    
+    public Semisters(Connection con)
+    {
+    	this.con=con;
+    	gradeVal.put("O", 10);
+        gradeVal.put("S", 9);
+        gradeVal.put("A", 8);
+        gradeVal.put("B", 7);
+        gradeVal.put("C", 6);
+        gradeVal.put("D", 5);
+        gradeVal.put("F", 0);	 
+    }
+   
+        
+        
+        
+    
+    
+ public void Sem1(long chat_id, String id) {
+	 
+        
+        try {
+            
+            String query = "SELECT * FROM sem1 WHERE ID=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                String ids = rs.getString("ID");
+                
+                String m1 = rs.getString("mathematics1");
+                String eng = rs.getString("english");
+                String che = rs.getString("chemistry");
+                String fc = rs.getString("fcs");
+                String ed = rs.getString("ed");
+                String eng_l = rs.getString("eng_lab");
+                String che_l = rs.getString("che_l");
+                String fc_lab = rs.getString("fc_lab");
+                sem1Spga=calcSem1(m1,eng,che,fc,ed,eng_l,che_l,fc_lab);
+                String combinedMessage ="ID"+ids + "\n" +"Mathematics 1"+ m1 + "\n" +"English"+ eng + "\n"+"Chemistry" + che + "\n"+"Fundementals of C.S" + fc + "\n" +"Engineering Drawing"+ ed + "\n"
+                        +"English Lab"+ eng_l + "\n"+"Chemistry lab" + che_l + "\n" +"FCS Lab"+ fc_lab+ "\n" +"SGPA "+sem1Spga;
+                
+                
+               //sem1Spga=calcSem1(m1,eng,che,fc,ed,eng_l,che_l,fc_lab);
+               
+               System.out.println(sem1Spga);
+                
+                System.out.println("here 1");
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(combinedMessage);
+                
+                System.out.println("after msg");
+                
+                
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+                
+            }
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+   
+
+    private double calcSem1(String m1, String eng, String che, String fcs, String ed, String e_lab, String che_l,String itw) {
+    	System.out.println("sgpa cal");
+    	HashMap<String, Double> cred = new HashMap<>();
+        cred.put("m1", 3.0);
+        cred.put("che", 3.0);
+        cred.put("fcs", 3.0);
+        cred.put("eng", 3.0);
+        cred.put("ed", 2.5);
+        cred.put("e_lab", 1.5);
+        cred.put("itw", 1.5);
+        cred.put("che_l", 1.5);
+        
+        String[] subjects = {m1, che, fcs, eng, ed, e_lab, che_l, itw};
+        String[] subj = {"m1", "che", "fcs", "eng", "ed", "e_lab", "che_l", "itw"};
+        
+        double totalCredits = 0;
+        double totalGradePoints = 0;
+        
+        for(int i=0;i<subjects.length;i++) {
+            Integer gradePoint = gradeVal.get(subjects[i]);
+            Double credits = cred.get(subj[i]);
+
+            
+            totalGradePoints += gradePoint * credits;
+            totalCredits += credits;  
+        }
+        double sgpa = 0.0;
+        if (totalCredits != 0) {
+            sgpa = totalGradePoints / totalCredits;
+        }
+         
+        double fsgpa = Double.parseDouble(String.format("%.2f", sgpa)); 
+	return fsgpa;
+}
+
+    
+
+
+
+
+
+	public void Sem2(long chat_id, String id) {
+        try {
+            String query = "SELECT * FROM sem2 WHERE Id=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                String ids = rs.getString("Id");
+                String ap = rs.getString("AP");
+                String prob_sol_c = rs.getString("PROB_SOL_C");
+                String dig_logic_des = rs.getString("DIG_LOGIC_DES");
+                String math_ii = rs.getString("MATH_II");
+                String math_iii = rs.getString("MATH_III");
+                String eng_exp_proj = rs.getString("ENG_EXP_PROJ");
+                String ap_lab = rs.getString("AP_LAB");
+                String prob_sol_c_lab = rs.getString("PROB_SOL_C_LAB");
+                String comm_skills_lab = rs.getString("COMM_SKILLS_LAB");
+                String constitution = rs.getString("CONSTITUTION");
+                sem2Spga=calcSem2(ap,prob_sol_c,dig_logic_des,math_ii,math_iii,eng_exp_proj,ap_lab,prob_sol_c_lab,comm_skills_lab);
+                // Constructing the message with clear alignment
+                String comb = String.format("%-35s%-15s\n", "***Subject Name***", "***Grade***") +
+                              String.format("%-5s%-30s%-15s\n", "ID:", ids, "") +
+                              String.format("%-30s%-25s\n", "APPLIED_PHYSICS:", ap) +
+                              String.format("%-30s%-25s\n", "C_LANGUAGE:", prob_sol_c) +
+                              String.format("%-30s%-25s\n", "DIGITAL_L_DESIGN:", dig_logic_des) +
+                              String.format("%-30s%-25s\n", "MATHEMATICS_II:", math_ii) +
+                              String.format("%-30s%-25s\n", "MATHEMATICS_III:", math_iii) +
+                              String.format("%-30s%-25s\n", "ENG_E_PROJECT:", eng_exp_proj) +
+                              String.format("%-30s%-25s\n", "PHYSICS_LAB:", ap_lab) +
+                              String.format("%-30s%-25s\n", "C_LAB:", prob_sol_c_lab) +
+                              String.format("%-30s%-25s\n", "COMM_SKILLS_LAB:", comm_skills_lab) +
+                              String.format("%-30s%-25s\n", "CONST_OF_INDIA:", constitution)+
+                              String.format("%-30s%-25s\n", "SGPA  :",sem2Spga);
+
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    
+    
+    
+    private double calcSem2(String ap, String prob_sol_c, String dig_logic_des, String math_ii, String math_iii,
+			String eng_exp_proj, String ap_lab, String prob_sol_c_lab, String comm_skills_lab) {
+    	
+    	HashMap<String, Double> cred = new HashMap<>();
+    	
+    	cred.put("ap",3.0);
+    	cred.put("prob_sol_c", 3.0);
+    	cred.put("dig_logic_des",3.0);
+    	cred.put("math_ii", 3.0);
+    	cred.put("math_iii", 3.0);
+    	cred.put("eng_exp_proj",1.0);
+    	cred.put("ap_lab",1.5);
+    	cred.put("prob_sol_c_lab", 1.5);
+    	cred.put("comm_skills_lab", 2.0);
+    	
+    	
+    	String[] subjects = {ap, prob_sol_c, dig_logic_des, math_ii, math_iii, eng_exp_proj, ap_lab, prob_sol_c_lab, comm_skills_lab};
+        String[] subj = {"ap", "prob_sol_c", "dig_logic_des", "math_ii", "math_iii", "eng_exp_proj", "ap_lab", "prob_sol_c_lab", "comm_skills_lab"};
+        
+        double totalCredits = 0;
+        double totalGradePoints = 0;
+        
+        for (int i = 0; i < subjects.length; i++) {
+            Integer gradePoint = gradeVal.get(subjects[i]);
+            Double credits = cred.get(subj[i]);
+            
+            totalGradePoints += gradePoint * credits;
+            totalCredits += credits;
+            
+        }
+        
+        double sgpa = 0.0;
+        if (totalCredits != 0) {
+            sgpa = totalGradePoints / totalCredits;
+        }
+
+        
+        double formattedSGPA = Double.parseDouble(String.format("%.2f", sgpa));
+
+        return formattedSGPA;
+    
+	}
+
+
+
+
+
+
+	public void Sem3(long chat_id, String id) {
+        try {
+            String query = "SELECT * FROM sem3 WHERE ID=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                String ids = rs.getString("ID");
+                String sw_eng = rs.getString("SW_ENG");
+                String py_prog = rs.getString("PY_PROG");
+                String ds = rs.getString("DS");
+                String comp_org = rs.getString("COMP_ORG");
+                String oop_cpp = rs.getString("OOP_CPP");
+                String math_found_cs = rs.getString("MATH_FOUND_CS");
+                String ds_cpp_lab = rs.getString("DS_CPP_LAB");
+                String py_prog_lab = rs.getString("PY_PROG_LAB");
+                String em_skills = rs.getString("EM_SKILLS");
+                String indian_knowledge = rs.getString("INDIAN_KNOWLEDGE");
+               
+                sem3Spga=calcSem3(sw_eng,py_prog,ds,comp_org,oop_cpp,math_found_cs,ds_cpp_lab,py_prog_lab);
+                String comb = "ID: " + ids + "\n" +
+                              "SOFTWARE_ENGINEERING: " + sw_eng + "\n" +
+                              " PYTHON_PROGRAMMING: " + py_prog + "\n" +
+                              "DATA_STRUCTURES : " + ds + "\n" +
+                              "COMPUTER_ORGANIZATION: " + comp_org + "\n" +
+                              "OBJECT_ORIENTED_PROGRAMM_THROUGH_CPP: " + oop_cpp + "\n" +
+                              "MATHEMATICAL_FOUNDATIONS_OF_COMPUTER_SCIENCE: " + math_found_cs + "\n" +
+                              "DATA_STRUCTURES_THROUGH_CPP_LAB: " + ds_cpp_lab + "\n" +
+                              "PYTHON_PROGRAMMING_LAB: " + py_prog_lab + "\n" +
+                              "EMPLOYABILITY_SKILLS_I: " + em_skills + "\n" +
+                              "ESSENCE_OF_INDIAN_TRADITIONAL_KNOWLEDGE: " + indian_knowledge+ "\n" +
+                               "SGPA "+sem3Spga;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    
+    private double calcSem3(String sw_eng, String py_prog, String ds, String comp_org, String oop_cpp,
+			String math_found_cs, String ds_cpp_lab, String py_prog_lab) {
+		// TODO Auto-generated method stub
+    	HashMap<String, Double> cred = new HashMap<>();
+    	cred.put("sw_eng", 3.0);
+    	cred.put("py_prog", 3.0);
+    	cred.put("ds", 3.0);
+    	cred.put("comp_org", 3.0);
+    	cred.put("oop_cpp", 3.0);
+    	cred.put("math_found_cs", 4.0);
+    	cred.put("ds_cpp_lab", 1.5);
+    	cred.put("py_prog_lab", 1.5);
+    	
+    	String[] subjects = {sw_eng, py_prog, ds, comp_org, oop_cpp, math_found_cs, ds_cpp_lab, py_prog_lab};
+        String[] subj = {"sw_eng", "py_prog", "ds", "comp_org", "oop_cpp", "math_found_cs", "ds_cpp_lab", "py_prog_lab"};
+        
+        double totalCredits = 0;
+        double totalGradePoints = 0;
+        
+        for (int i = 0; i < subjects.length; i++) {
+            Integer gradePoint = gradeVal.get(subjects[i]);
+            Double credits = cred.get(subj[i]);
+
+           
+                totalGradePoints += gradePoint * credits;
+                totalCredits += credits;
+               
+                
+        }
+        double sgpa = 0.0;
+        if (totalCredits != 0) {
+            sgpa = totalGradePoints / totalCredits;
+        }
+        
+        double formattedSGPA = Double.parseDouble(String.format("%.2f", sgpa));
+
+        return formattedSGPA;
+	}
+
+
+
+
+
+
+	public void Sem4(long chat_id, String id) {
+        try {
+            String query = "SELECT * FROM sem4 WHERE ID=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                String ids = rs.getString("ID");
+                String os = rs.getString("OS");
+                String dbms = rs.getString("DBMS");
+                String flat = rs.getString("FLAT");
+                String prob_stats = rs.getString("PROB_STATS");
+                String java = rs.getString("JAVA");
+                String sr_project = rs.getString("SR_PROJECT");
+                String java_lab = rs.getString("JAVA_LAB");
+                String dbms_lab = rs.getString("DBMS_LAB");
+                String unix_lab = rs.getString("UNIX_LAB");
+                String ethics = rs.getString("ETHICS");
+                sem4Spga=calcSem4(os,dbms,flat,prob_stats,java,sr_project,java_lab,dbms_lab,unix_lab);
+                
+                String comb = "ID: " + ids + "\n" +
+                              "OPERATING_SYSTEMS: " + os + "\n" +
+                              "DATABASE_MANAGEMENT_SYSTEMS: " + dbms + "\n" +
+                              "FORMAL_LANGUAGES_AND_AUTOMATA_THEORY: " + flat + "\n" +
+                              "PROBABILITY_AND_STATISTICS: " + prob_stats + "\n" +
+                              "JAVA_PROGRAMMING: " + java + "\n" +
+                              "SOCIALLY_RELEVANT_PROJECT: " + sr_project + "\n" +
+                              "JAVA_PROGRAMMING_LAB: " + java_lab + "\n" +
+                              "DATABASE_MANAGEMENT_SYSTEMS_LAB: " + dbms_lab + "\n" +
+                              "UNIX_OPERATING_SYSTEMS_LAB: " + unix_lab + "\n" +
+                              "PROFESSIONAL_ETHICS_AND_HUMAN_VALUES: " + ethics+ "\n" +
+                              "SGPA  : "+sem4Spga;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    private double calcSem4(String os, String dbms, String flat, String prob_stats, String java, String sr_project,
+			String java_lab, String dbms_lab, String unix_lab) {
+    	
+    	HashMap<String, Double> cred = new HashMap<>();
+    	cred.put("os",3.0);
+    	cred.put("dbms", 4.0);
+    	cred.put("flat",3.0);
+    	cred.put("prob_stats", 3.0);
+    	cred.put("java", 3.0);
+    	cred.put("sr_project", 1.0);
+    	cred.put("java_lab",1.5);
+    	cred.put("dbms_lab",1.5);
+    	cred.put("unix_lab",1.0);
+		// TODO Auto-generated method stub
+		
+    	String[] subjects = {os, dbms, flat, prob_stats, java, sr_project, java_lab, dbms_lab, unix_lab};
+        String[] subj = {"os", "dbms", "flat", "prob_stats", "java", "sr_project", "java_lab", "dbms_lab", "unix_lab"};
+        
+        
+        double totalCredits = 0;
+        double totalGradePoints = 0;
+
+        for (int i = 0; i < subjects.length; i++) {
+        	System.out.println("for");
+            Integer gradePoint = gradeVal.get(subjects[i]);
+            System.out.println("11");
+            Double credits = cred.get(subj[i]);
+            System.out.println("12");
+           
+                totalGradePoints += gradePoint * credits;
+                totalCredits += credits;
+               
+                
+        }
+        double sgpa = 0.0;
+        if (totalCredits != 0) {
+            sgpa = totalGradePoints / totalCredits;
+        }
+        
+        double formattedSGPA = Double.parseDouble(String.format("%.2f", sgpa));
+
+        return formattedSGPA;
+
+	}
+
+
+
+
+
+
+	public void Sem5(long chat_id, String id) {
+        try {
+            String query = "SELECT * FROM sem5 WHERE ID=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                String ids = rs.getString("ID");
+                String cn = rs.getString("CN");
+                String cd = rs.getString("CD");
+                String ai = rs.getString("AI");
+                String dwdm = rs.getString("DWDM");
+                String stm = rs.getString("STM");
+                String es_ii = rs.getString("ES_II");
+                String cn_lab = rs.getString("CN_LAB");
+                String ai_lab = rs.getString("AI_LAB");
+                String dm_lab = rs.getString("DM_LAB");
+                sem5Spga=calcSem5(cn,cd,ai,dwdm,stm,cn_lab,ai_lab,dm_lab);
+                String comb = "ID: " + ids + "\n" +
+                              "COMPUTER_NETWORKS: " + cn + "\n" +
+                              "COMPILER_DESIGN: " + cd + "\n" +
+                              "ARTIFICIAL_INTELLIGENCE: " + ai + "\n" +
+                              "DATA_WAREHOUSING_AND_DATA_MINING: " + dwdm + "\n" +
+                              "SOFTWARE_TESTING_METHODOLOGIES: " + stm + "\n" +
+                              "EMPLOYABILITY_SKILLS_II: " + es_ii + "\n" +
+                              "COMPUTER_NETWORKS_LAB: " + cn_lab + "\n" +
+                              "AI_TOOLS_AND_TECHNIQUES_LAB: " + ai_lab + "\n" +
+                              "DATA_MINING_LAB: " + dm_lab + "\n" +
+                              "SGPA : "+sem5Spga;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    
+    private double calcSem5(String cn, String cd, String ai, String dwdm, String stm, String cn_lab, String ai_lab,
+			String dm_lab) {
+		System.out.println("calcsem5");
+    	HashMap<String, Double> cred = new HashMap<>();
+    	cred.put("cn", 3.0);
+    	cred.put("cd", 3.0);
+    	cred.put("ai",3.0);
+    	cred.put("dwdm",3.0);
+    	cred.put("stm",3.0);
+    	cred.put("cn_lab",1.0);
+    	cred.put("ai_lab", 1.5);
+    	cred.put("dm_lab", 1.5);
+    	
+    	String[] subjects = {cn, cd, ai, dwdm, stm, cn_lab, ai_lab, dm_lab};
+        String[] subj = {"cn", "cd", "ai", "dwdm", "stm", "cn_lab", "ai_lab", "dm_lab"};
+        System.out.println("fun..");
+        double sgpa=calculateSGPA(subjects,subj,cred);
+        System.out.println("reru");
+        return sgpa;
+	}
+
+
+
+
+
+
+	public void Sem6(long chat_id, String id) {
+        try {
+            String query = "SELECT * FROM sem6 WHERE ID=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                String ids = rs.getString("ID");
+                String res = rs.getString("RES");
+                String web_tech = rs.getString("WEB_TECH");
+                String dist_sys = rs.getString("DIST_SYS");
+                String daa = rs.getString("DAA");
+                String mefa = rs.getString("MEFA");
+                String moocs = rs.getString("MOOCS");
+                String industrial_training = rs.getString("INDUSTRIAL_TRAINING");
+                String web_tech_lab = rs.getString("WEB_TECH_LAB");
+                
+                String comb = "ID: " + ids + "\n" +
+                              "RENEWABLE_ENERGY_SOURCES: " + res + "\n" +
+                              "WEB_TECHNOLOGIES: " + web_tech + "\n" +
+                              "DISTRIBUTED_SYSTEMS: " + dist_sys + "\n" +
+                              "DESIGN_AND_ANALYSIS_OF_ALGORITHMS: " + daa + "\n" +
+                              "MANAGERIAL_ECONOMICS_AND_FINANCIAL_ACCOUNTANCY: " + mefa + "\n" +
+                              "MOOCS: " + moocs + "\n" +
+                              "INDUSTRIAL_TRAINING_SKILL_DEVELOP_RESEARCH_PROJECT: " + industrial_training + "\n" +
+                              "WEB_TECHNOLOGIES_LAB: " + web_tech_lab;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    public void Sem7(long chat_id, String id) {
+        try {
+            String query = "SELECT * FROM sem7 WHERE ID=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                String ids = rs.getString("ID");
+                String uml_dp = rs.getString("UML_DP");
+                String sp_management = rs.getString("SP_MANAGEMENT");
+                String crypto_network_security = rs.getString("CRYPTO_NETWORK_SECURITY");
+                String ml = rs.getString("ML");
+                String embedded_sys = rs.getString("EMBEDDED_SYS");
+                String cloud_computing = rs.getString("CLOUD_COMPUTING");
+                String project_1 = rs.getString("PROJECT_1");
+                String ipr_patents = rs.getString("IPR_PATENTS");
+                String uml_lab = rs.getString("UML_LAB");
+                
+                String comb = "ID: " + ids + "\n" +
+                              "UML_AND_DESIGN_PATTERNS: " + uml_dp + "\n" +
+                              "SOFTWARE_PROJECT_MANAGEMENT: " + sp_management + "\n" +
+                              "CRYPTOGRAPHY_AND_NETWORK_SECURITY: " + crypto_network_security + "\n" +
+                              "MACHINE_LEARNING: " + ml + "\n" +
+                              "EMBEDDED_SYSTEMS: " + embedded_sys + "\n" +
+                              "CLOUD_COMPUTING: " + cloud_computing + "\n" +
+                              "PROJECT_1: " + project_1 + "\n" +
+                              "IPR_AND_PATENTS: " + ipr_patents + "\n" +
+                              "UML_LAB: " + uml_lab;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    
+    public void Sem8(long chat_id, String id) {
+        try {
+            String query = "SELECT * FROM sem8 WHERE ID=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                String ids = rs.getString("ID");
+                String tqm = rs.getString("TQM");
+                String devops = rs.getString("DEVOPS");
+                String mgmt_org_behavior = rs.getString("MGMT_ORG_BEHAVIOR");
+                String project_ii = rs.getString("PROJECT_II");
+                
+                String comb = "ID: " + ids + "\n" +
+                              "TOTAL_QUALITY_MANAGEMENT: " + tqm + "\n" +
+                              "DEVOPS: " + devops + "\n" +
+                              "MANAGEMENT_AND_ORGANIZATIONAL_BEHAVIOR: " + mgmt_org_behavior + "\n" +
+                              "PROJECT_II: " + project_ii;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    public void updatesems(long chatid)
+    {
+    	SendMessage message = new SendMessage(); 
+ 		message.setChatId(chatid);
+ 		message.setText("sem results..");
+ 		ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+        // Create the keyboard (list of keyboard rows)
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        // Create a keyboard row
+        KeyboardRow row = new KeyboardRow();
+        // Set each button, you can also use KeyboardButton objects if you need something else than text
+        
+        row.add("sem-1");
+        row.add("sem-2");
+        row.add("sem-3");
+        // Add the first row to the keyboard
+        keyboard.add(row);
+        // Create another keyboard row
+        KeyboardRow row2 = new KeyboardRow();
+        row2.add("sem-4");
+        row2.add("sem-5");
+        row2.add("sem-6");
+        
+        keyboard.add(row2);
+        
+        
+        KeyboardRow row3 = new KeyboardRow();
+        row3.add("sem-7");
+        row3.add("sem-8");
+        row3.add("return");
+        
+        keyboard.add(row3);
+        
+        // Set the keyboard to the markup
+        keyboardMarkup.setKeyboard(keyboard);
+        // Add it to the message
+        message.setReplyMarkup(keyboardMarkup);
+        
+        
+ 		
+ 		
+ 		try {
+            execute(message); // Sending our message object to user
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    private double calculateSGPA(String[] subjects, String[] subj, HashMap<String, Double> cred) {
+    	System.out.println("calc sgpa");
+    	System.out.println(Arrays.toString(subjects));
+    	System.out.println(Arrays.toString(subj));
+    	System.out.println(cred.get(subj[0]));
+    	System.out.println(gradeVal.get(subjects[0]));
+        double totalCredits = 0;
+        double totalGradePoints = 0;
+        
+        for (int i = 0; i < subjects.length; i++) {
+        	System.out.println("itr");
+            Integer gradePoint = gradeVal.get(subjects[i]);
+            Double credits = cred.get(subj[i]);
+            
+            totalGradePoints += gradePoint * credits;
+            totalCredits += credits;
+        }
+        System.out.println(totalCredits+" "+totalGradePoints);
+        
+        
+        double sgpa = 0.0;
+        if (totalCredits != 0) {
+            sgpa = totalGradePoints / totalCredits;
+        }
+        
+        
+        System.out.println("end..");
+        double formattedSGPA = Double.parseDouble(String.format("%.2f", sgpa));
+        System.out.println(formattedSGPA);
+        return formattedSGPA;
+		
+    }
+
+
+	
+
+
+    	
+    }
+

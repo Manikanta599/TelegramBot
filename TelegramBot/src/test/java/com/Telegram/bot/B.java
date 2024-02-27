@@ -22,6 +22,10 @@ public class B extends TelegramLongPollingBot {
 //    static int keyb = 0;
     static int lg = 0;
     static int sr=0;
+    static int sem_up =0;
+    static String sem_name = "";
+    static boolean sem_val = false;
+    
     Connection con1;
     @Override
     
@@ -50,12 +54,43 @@ public class B extends TelegramLongPollingBot {
             	System.out.println("1");
 //           	System.out.println(message_text);
             	sendStartMessage(chat_id);
-            	
-            	
+            	   	
             }
-            
-            
-           
+            else if(sem_up ==1) {
+            	System.out.println(message_text);
+            	if(message_text.startsWith("sem-")) {
+            		sem_name = message_text;
+            		System.out.println("ENTER RESULTS FOR  "+sem_name );
+            		System.out.println("SUB CODE GRADE");
+            		
+            	}
+            	else if(message_text.equals("return")) {
+            		sem_up = 0;
+            	}
+            	
+            	else {
+            		System.out.println("ENTERED RESULT"+message_text+" "+sem_name);
+            		String arr[] =message_text.split(" ");
+            		String sub_code = arr[0];
+            		String sub_grade = arr[1];
+//            		if(valid_sub_code(sub_code) && valid_sub_grade(sub_grade)) {
+//            			
+//            		}
+            		SendMessage message = new SendMessage();
+            		 message.setChatId(chat_id);
+                     message.setText(sem_name+"UPDATED WITH "+sub_code+" "+sub_grade);
+             try {
+                 execute(message);
+                 first_msg =1;
+                 System.out.println("2");
+                 // Sending our message object to user
+             } catch (TelegramApiException e) {
+                 e.printStackTrace();
+             }
+            		
+            	}
+            }
+
             
             else if(message_text.equals("sem 1")) {
             	SendMessage message = new SendMessage();
@@ -250,6 +285,8 @@ public class B extends TelegramLongPollingBot {
             {
             	sems.updatesems(chat_id);
             	System.out.println("update res..");
+            	
+            	sem_up =1;
             }
             else if(message_text.equals("attendence"))
             {

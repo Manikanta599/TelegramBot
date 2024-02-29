@@ -3,6 +3,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
+import static org.junit.jupiter.api.DynamicTest.stream;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -39,6 +41,8 @@ public class Semisters extends B {
 	static int back_sem8=0;
     // Adding grade-value pairs to the HashMap
    
+	ArrayList<String> sem1s = new ArrayList<>();
+	ArrayList<String> sem2s = new ArrayList<>();
     
     public Semisters(Connection con)
     {
@@ -69,17 +73,20 @@ public class Semisters extends B {
             if (rs.next()) {
                 String ids = rs.getString("ID");
                 
-                String m1 = rs.getString("mathematics1");
-                String eng = rs.getString("english");
-                String che = rs.getString("chemistry");
-                String fc = rs.getString("fcs");
-                String ed = rs.getString("ed");
-                String eng_l = rs.getString("eng_lab");
-                String che_l = rs.getString("che_l");
-                String fc_lab = rs.getString("fc_lab");
+                String m1 = rs.getString("Math");
+                String eng = rs.getString("Eng");
+                String che = rs.getString("Chem");
+                String fc = rs.getString("CompSci");
+                String ed = rs.getString("EngDraw");
+                String eng_l = rs.getString("EngLab");
+                String che_l = rs.getString("ChemLab");
+                String fc_lab = rs.getString("ITWorkshop");
+                String env=rs.getString("EnvSci");
                 
                 strs.add(m1);strs.add(eng); strs.add(che);strs.add(fc);strs.add(ed);strs.add(eng_l);strs.add(che_l);strs.add(fc_lab);
-         
+                
+                sem1s=strs;
+                
                 String[] strArray = strs.toArray(new String[0]);
                 
                 
@@ -90,7 +97,7 @@ public class Semisters extends B {
                 System.out.println("backlogs "+back_sem1);
                 
                 String combinedMessage ="ID"+ids + "\n" +"Mathematics 1"+ m1 + "\n" +"English"+ eng + "\n"+"Chemistry" + che + "\n"+"Fundementals of C.S " + fc + "\n" +"Engineering Drawing"+ ed + "\n"
-                        +"English Lab"+ eng_l + "\n"+"Chemistry lab" + che_l + "\n" +"FCS Lab"+ fc_lab+ "\n" +"SGPA "+sem1Spga+ "\n" +
+                        +"English Lab"+ eng_l + "\n"+"Chemistry lab" + che_l + "\n" +"FCS Lab"+ fc_lab+ "\n" +"SGPA "+ "\n" +"Env Science "+env+sem1Spga+ "\n" +
                 		""+ "\n" +"No of Backlogs :" + back_sem1;
                 
                 
@@ -184,7 +191,7 @@ public class Semisters extends B {
                 
                 String[] strArray = strs.toArray(new String[0]);
                 
-                
+                sem2s=strs;
                 sem2Spga=calcSem2(strArray);
                 
                 back_sem2=calcBack(strArray);
@@ -307,10 +314,7 @@ public class Semisters extends B {
             e.printStackTrace();
         }
     }
-    
-    
-    
-    
+ 
     private double calcSem3(String[] subjects) {
 		// TODO Auto-generated method stub
     	HashMap<String, Double> cred = new HashMap<>();
@@ -329,10 +333,6 @@ public class Semisters extends B {
         System.out.println("reru");
         return sgpa;
 	}
-
-
-
-
 
 
 	public void Sem4(long chat_id, String id) {
@@ -450,6 +450,7 @@ public class Semisters extends B {
                 String[] strArray = strs.toArray(new String[0]);
 
                 sem5Spga=calcSem5(strArray);
+                
                 back_sem5=calcBack(strArray);
                 
                 String comb = "ID: " + ids + "\n" +
@@ -724,10 +725,6 @@ public class Semisters extends B {
 	}
 
 
-
-
-
-
 	public void updatesems(long chatid)
     {
     	SendMessage message = new SendMessage(); 
@@ -740,23 +737,23 @@ public class Semisters extends B {
         KeyboardRow row = new KeyboardRow();
         // Set each button, you can also use KeyboardButton objects if you need something else than text
         
-        row.add("sem-1");
-        row.add("sem-2");
-        row.add("sem-3");
+        row.add("sem1");
+        row.add("sem2");
+        row.add("sem3");
         // Add the first row to the keyboard
         keyboard.add(row);
         // Create another keyboard row
         KeyboardRow row2 = new KeyboardRow();
-        row2.add("sem-4");
-        row2.add("sem-5");
-        row2.add("sem-6");
+        row2.add("sem4");
+        row2.add("sem5");
+        row2.add("sem6");
         
         keyboard.add(row2);
         
         
         KeyboardRow row3 = new KeyboardRow();
-        row3.add("sem-7");
-        row3.add("sem-8");
+        row3.add("sem7");
+        row3.add("sem8");
         row3.add("return");
         
         keyboard.add(row3);
@@ -817,7 +814,20 @@ public class Semisters extends B {
     }
 
 
-	
+    public void overview()
+    {
+    	System.out.println("come in");
+    	String[] strArray = sem1s.toArray(new String[0]);
+    	String[] strArray1 = sem2s.toArray(new String[0]);
+    	System.out.println(Arrays.toString(strArray));
+    	System.out.println(Arrays.toString(strArray1));
+    	double s1=calcSem1(strArray);
+    	double s2=calcSem2(strArray1);
+    	System.out.println("overvie");
+    	System.out.println(s1+" "+s2);
+    	
+    	System.out.println();
+    }
 
 
     
@@ -836,8 +846,11 @@ public class Semisters extends B {
 		
 	return c;
 	}
-
 }
+
+
+
+
 
 
 

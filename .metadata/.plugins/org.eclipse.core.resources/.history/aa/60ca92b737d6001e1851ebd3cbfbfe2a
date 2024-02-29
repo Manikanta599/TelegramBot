@@ -1,0 +1,111 @@
+package com.Telegram.bot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.exceptions.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import com.mysql.cj.jdbc.PreparedStatementWrapper;
+
+public class UpdateM extends B{
+	Connection con;
+	
+	
+	
+	
+	public UpdateM(Connection con)
+	{
+		this.con=con;
+		
+	}
+	static int m=0;
+	
+	public void sem1Update(String msg, String sem_name, String id) {
+	    System.out.println(sem_name);
+	    String arr[] = msg.split(" ");
+	    String sub_code = arr[0];
+	    String sub_grade = arr[1];
+	    if (sem_name.equals("sem-1")) {
+	    	sem1Update(sub_code,sub_grade,id);
+	    }
+	    else if(sem_name.equals("sem-2"))
+	    {
+	    	
+	    }
+	        
+	    }
+	
+	
+	private void sem1Update1(String sub_code,String sub_grade,String id)
+	{
+		HashMap<String, String> sem1 = new HashMap<>();
+		sem1.put("BS1101", "Math");
+		sem1.put("HS1101", "Eng");
+		sem1.put("BS1106", "Chem");
+		sem1.put("ES1112", "CompSci");
+		sem1.put("ES1103", "EngDraw");
+		sem1.put("HS1102", "EngLab");
+		sem1.put("BS1107", "ChemLab");
+		sem1.put("ES1105", "ITWorkshop");
+		sem1.put("MC1101", "EnvSci");
+		
+		
+		for (String key : sem1.keySet()) {
+            String sub = sem1.get(key);
+            if (key.equals(sub_code)) {
+                String query = "UPDATE sem1 SET " + sub + " = ? WHERE ID = ?";
+                try {
+                    PreparedStatement pst = con.prepareStatement(query);
+                    pst.setString(1, sub_grade);
+                    pst.setString(2, id);
+
+                    int c = pst.executeUpdate();
+                    if (c > 0) {
+                        System.out.println("success");
+                    } else {
+                        System.out.println("not updated");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+		
+		
+	}
+
+		
+		
+//		System.out.println("sem1.. com");
+//		if(m==0)
+//		{
+//			System.out.println("if m=0");
+//			System.out.println(msg+"sem");
+//			System.out.println("ENTER RESULTS FOR  "+sem_name );
+//			System.out.println("SUB CODE GRADE");
+//			m=1;
+//		}
+//		if(m==1)
+//		{
+//			System.out.println("if m=1");
+//			System.out.println("ENTERED RESULT"+msg+" "+sem_name);
+//			
+		
+		
+		
+		
+		
+	}

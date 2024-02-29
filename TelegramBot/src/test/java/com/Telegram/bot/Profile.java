@@ -19,16 +19,22 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Profile extends B{
+	
 	Connection con;
+	Semisters ss;
+	static double cgpa1=0.0;
+	static double cgpa2=0.0;
+	static double cgpa3=0.0;
+	static double cgpa4=0.0;
 	
 	public Profile(Connection con)
 	{
 		this.con=con;
+
 	}
 	
 	
 	
-    
 	public int keyb=0;
 	static String fname="";
 	static String stu_id;
@@ -56,6 +62,8 @@ public class Profile extends B{
     	 SendMessage message = new SendMessage();
        	 message.setChatId(chatid);
        	message.setText("Valid user");
+       	B.log=0;
+       	System.out.println(log+"in valid");
        	f=false;
        	keyb=1;
        	try {
@@ -134,57 +142,55 @@ public class Profile extends B{
 		e.printStackTrace();
 	}
     }
-	
-	
-	public void overviewMet(long chat_id,String stu_id)
-	{
+
+
+
+	public void loginMet(long chat_id, String message_text) {
+		// TODO Auto-generated method stub
+		
+		
+		
 		
 	}
+
+
+
+	public void regd(long chat_id, String message_text) {
+		// TODO Auto-generated method stub
+		B.rg=1;
+		System.out.println("id "+message_text);
+	}
+
+
+
+	public void namer(long chat_id, String message_text) {
+		// TODO Auto-generated method stub
+		B.nam=1;
+		System.out.println("name"+message_text);
+	}
+
+
+
+	public void email(long chat_id, String message_text) {
+		// TODO Auto-generated method stub
+		B.em=1;
+		System.out.println("email "+message_text);
+		
+	}
+
+
+
+	public void phno(long chat_id, String message_text) {
+		// TODO Auto-generated method stub
+		B.ph=1;
+		System.out.println("phno "+message_text);
+	}
+
+
+
 	
 	
-	 public void updateProfile(long chat_id)
-	    {
-	    	
-	        
-	        System.out.println("update ");
-	        SendMessage message = new SendMessage(); 
-	 		message.setChatId(chat_id);
-	 		message.setText("update datails");
-	 		ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-	        // Create the keyboard (list of keyboard rows)
-	        List<KeyboardRow> keyboard = new ArrayList<>();
-	        // Create a keyboard row
-	        KeyboardRow row = new KeyboardRow();
-	        // Set each button, you can also use KeyboardButton objects if you need something else than text
-	        
-	        row.add("Update email");
-	        row.add("Update number");
-	        row.add("return");
-	    	
-	        keyboard.add(row);
-	    	
-	        
-	     // Set the keyboard to the markup
-	        keyboardMarkup.setKeyboard(keyboard);
-	        // Add it to the message
-	        message.setReplyMarkup(keyboardMarkup);
-	        
-	        
-	 		
-	 		
-	 		try {
-	            execute(message); // Sending our message object to user
-	        } catch (TelegramApiException e) {
-	            e.printStackTrace();
-	        }
-	        
-	        
-	    }
+	
+	
 	 
-	 public void updateEmail(long chat_id)
-	    {
-		 System.out.println("update metd");
-	    }
-	    
-	    
 }

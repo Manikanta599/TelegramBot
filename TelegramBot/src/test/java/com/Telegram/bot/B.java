@@ -25,6 +25,11 @@ public class B extends TelegramLongPollingBot {
     static int sem_up =0;
     static String sem_name = "";
     static boolean sem_val = false;
+    static int log=0;
+    static int rg=0;
+    static int nam=0;
+    static int em=0;
+    static int ph=0;
     
     Connection con1;
     @Override
@@ -43,6 +48,8 @@ public class B extends TelegramLongPollingBot {
     	System.out.println("0");
     	Profile p=new Profile(con1);
     	Semisters sems=new Semisters(con1);
+    	UpdateM up =new UpdateM(con1);
+    	Registration r=new Registration(con1);
         // We check if the update has a message and the message has text
         if (update.hasMessage() && update.getMessage().hasText()) {
             // Set variables
@@ -52,46 +59,40 @@ public class B extends TelegramLongPollingBot {
             long chat_id = update.getMessage().getChatId();
             if (message_text.equals("/start")) {
             	System.out.println("1");
-//           	System.out.println(message_text);
+           	System.out.println(message_text);
             	sendStartMessage(chat_id);
             	   	
             }
             else if(sem_up ==1) {
-            	System.out.println(message_text);
-            	if(message_text.startsWith("sem-")) {
-            		sem_name = message_text;
-            		System.out.println("ENTER RESULTS FOR  "+sem_name );
-            		System.out.println("SUB CODE GRADE");
-            		
-            	}
-            	else if(message_text.equals("return")) {
-            		sem_up = 0;
-            	}
             	
-            	else {
-            		System.out.println("ENTERED RESULT"+message_text+" "+sem_name);
-            		String arr[] =message_text.split(" ");
-            		String sub_code = arr[0];
-            		String sub_grade = arr[1];
-//            		if(valid_sub_code(sub_code) && valid_sub_grade(sub_grade)) {
-//            			
-//            		}
-            		SendMessage message = new SendMessage();
-            		 message.setChatId(chat_id);
-                     message.setText(sem_name+"UPDATED WITH "+sub_code+" "+sub_grade);
-             try {
-                 execute(message);
-                 first_msg =1;
-                 System.out.println("2");
-                 // Sending our message object to user
-             } catch (TelegramApiException e) {
-                 e.printStackTrace();
-             }
-            		
-            	}
-            }
-
-            
+           
+               System.out.println(message_text);
+           	if(message_text.startsWith("sem")) {
+           		SendMessage message = new SendMessage();
+         		 message.setChatId(chat_id);
+                  message.setText("Enter Subject Code and Grade"+"\n"+" Example : ES1112 O");
+           		
+           		sem_name = message_text; 
+           		
+           		System.out.println("11"+sem_name);
+           		try {
+                    execute(message);
+           		}
+           		catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+          	}
+           	else if(message_text.equals("return")) {
+        		sem_up = 0;
+        		getMainKeyboardMarkup(chat_id);
+        	}
+           	else {
+        		
+                up.semsUpdate(message_text,sem_name,p.stu_id,chat_id);
+           		}
+        	
+         }
+           
             else if(message_text.equals("sem 1")) {
             	SendMessage message = new SendMessage();
             	 message.setChatId(chat_id);
@@ -203,68 +204,58 @@ public class B extends TelegramLongPollingBot {
             
             else if(message_text.equals("Overview"))
             {
-            	p.overviewMet(chat_id,p.stu_id);
+            	System.out.println("ovov");
+            	sems.overview();
             }
             
             else if(message_text.equals("View Profile"))
             {	
            	 	p.viewProfile(chat_id);
             }
-            else if(message_text.equals("Update Profile"))
-            {
-            	System.out.println("update");
-            	p.updateProfile(chat_id);
-            }
-            
-            else if(message_text.equals("Update email"))
-            {
-            	p.updateEmail(chat_id);
-            }
-            
-            
-            else if(first_msg==1)
-            {
-            	//System.out.println(p.again+"again");
-//            	inputName(message_text,chat_id);
-            	
-            	p.userValidation(message_text, chat_id);
-            	System.out.println(message_text);
-            	System.out.println("3");
-            	lg=1;
-            	first_msg=0;
-            	p.again=0;
-            	System.out.println("kyb"+p.keyb);
-            	if(p.keyb==1)
-                {
-                	System.out.println("keyboard");
-                	getMainKeyboardMarkup(chat_id);
+            else if(message_text.equals("Login")) {
+            	log= 1;
+            	SendMessage message = new SendMessage(); 
+         		message.setChatId(chat_id);
+         		message.setText("Enter Your ID");
+         		
+         		try {
+                    execute(message); 
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
                 }
+            }
+            
+             
+            
+            else if(log==1)
+            {
+            	
+            	//log=0;
+            	if(!message_text.equals("Login"))
+            	{
+            		//System.out.println(p.again+"again");
+//                	inputName(message_text,chat_id);
+                	
+                	
+                	p.userValidation(message_text, chat_id);
+                	System.out.println(message_text);
+                	System.out.println("3");
+                	lg=1;
+                	first_msg=0;
+                	p.again=0;
+                	System.out.println("kyb"+p.keyb);
+                	if(p.keyb==1)
+                    {
+                    	System.out.println("keyboard");
+                    	getMainKeyboardMarkup(chat_id);
+                    }
+            	}
+            	
             }
             
 
-            else if(p.again==1)
-            {
-            	System.out.println(p.again+"again");
-//            	inputName(message_text,chat_id);
-            	
-            	p.userValidation(message_text, chat_id);
-            	System.out.println(message_text);
-            	System.out.println("3");
-            	//lg=1;
-            	//first_msg=0;
-            	p.again=0;
-            	System.out.println("kyb"+p.keyb);
-            	if(p.keyb==1)
-                {
-                	System.out.println("keyboard");
-                	getMainKeyboardMarkup(chat_id);
-                }
-            }
             
-            
-            
-            
-            
+  
             else if(message_text.equals("profile"))
             {
             	profileMethod(chat_id);
@@ -288,47 +279,91 @@ public class B extends TelegramLongPollingBot {
             	
             	sem_up =1;
             }
+            else if(message_text.equals("LogOut"))
+            {
+            	//logOutMet()
+            }
             else if(message_text.equals("attendence"))
             {
             	System.out.println("att");
             	attendenceMethod(chat_id,p.stu_id);
             }
-            else if(message_text.equals("Notes_pdf"))
+            else if(log==1)
             {
-            	notesMethod(chat_id);
+            	System.out.println("log "+log);
+            	if(!message_text.equals("Registration"))
+            	{
+            		//String msg="";
+            		if(rg==0)
+                	{
+            			
+            			SendMessage message = new SendMessage();
+                   	 	message.setChatId(chat_id);
+                   	 	message.setText("Enter Regd number");
+                   	try {
+                   	     execute(message);
+                   	 } catch (TelegramApiException e) {
+                   	     e.printStackTrace();
+                   	 } 	
+     
+                		r.regdID(chat_id,message_text);
+                	}
+                	else if(nam==0)
+                	{
+                		r.nameReg(chat_id,message_text);
+                	}
+                	else if(em==0)
+                	{
+                		r.emailReg(chat_id,message_text);
+                	}
+                	else if(ph==0)
+                	{
+                		r.phnoReg(chat_id,message_text);
+                	}
+                	else
+                	{
+                		if(rg==1&&nam==1&&em==1&&ph==1)
+                		{
+                			log=0;
+                			
+                		}
+                	}
+            	}
+            	
             }
-            else if(message_text.equals("Coding"))
-            {
-            	codingMethod(chat_id); 
-            }  
-            
-           
-            
-            
+  
         } 
    }
     
     private void sendStartMessage(long chatId) {
-    	SendMessage message = new SendMessage(); // Create a message object object
-        message.setChatId(chatId);
-         message.setText("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗\n" +
-                 " HI IAM STARK 😎 \n" +
-                 " ENTER YOUR REGISTER_NUMBER(ID)\n" +
-                 " AND PASSWORD\n" +
-                 " YOUR PASSWORD = FIRST FOUR LETTER \n" +
-                 " OF YOUR EMAIL + FIRST FOUR DIGITS \n" +
-                 " OF YOUR MOBILE NUMBER\n" +
-                 " FORMAT:\n" +
-                 " ID(LAST-3 DIGITS)  SPACE PASSWORD\n" +
-                 " Ex : 501 SATI8639");
- try {
-     execute(message);
-     first_msg =1;
-     System.out.println("2");
-     // Sending our message object to user
- } catch (TelegramApiException e) {
-     e.printStackTrace();
- }
+    		
+    	System.out.println("send key");
+   
+    	SendMessage message = new SendMessage(); 
+ 		message.setChatId(chatId);
+ 		message.setText("Please select option & ");
+    	
+ 		
+ 		ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+        // Create the keyboard (list of keyboard rows)
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        // Create a keyboard row
+        KeyboardRow row = new KeyboardRow();
+        // Set each button, you can also use KeyboardButton objects if you need something else than text
+        
+        row.add("Login");
+        row.add("Registration");
+        keyboard.add(row);
+     // Set the keyboard to the markup
+        keyboardMarkup.setKeyboard(keyboard);
+        // Add it to the message
+        message.setReplyMarkup(keyboardMarkup);
+        
+        try {
+            execute(message); // Sending our message object to user
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     	
     }
     
@@ -349,9 +384,9 @@ public class B extends TelegramLongPollingBot {
         // Set each button, you can also use KeyboardButton objects if you need something else than text
         
         row.add("View Profile");
-        row.add("Update Profile");
+        
         row.add("return");
-        row.add("Overview");
+        
     	
         keyboard.add(row);
     	
@@ -491,6 +526,7 @@ public class B extends TelegramLongPollingBot {
     
     
     private  void getMainKeyboardMarkup(long chatid) {
+    	
     	SendMessage message = new SendMessage(); // Create a message object object
 		message.setChatId(chatid);
 		message.setText("Here is your keyboard");
@@ -510,8 +546,9 @@ public class B extends TelegramLongPollingBot {
         // Create another keyboard row
         row = new KeyboardRow();
         // Set each button for the second line
-        row.add("Notes_pdf");
-        row.add("Coding");
+        row.add("Notes");
+        row.add("Overview");
+        row.add("Update Results");
         row.add("LogOut");
         // Add the second row to the keyboard
         keyboard.add(row);
@@ -528,7 +565,7 @@ public class B extends TelegramLongPollingBot {
        
     }
     
-    private void selectSem(long chatid)
+    private void selectSem(long chatid) 
     {
     	System.out.println("select kb");
     	SendMessage message = new SendMessage(); // Create a message object object
@@ -544,7 +581,7 @@ public class B extends TelegramLongPollingBot {
         // Set each button, you can also use KeyboardButton objects if you need something else than text
         
         row.add("View Results");
-        row.add("Update Results");
+       
         row.add("return");
         // Add the first row to the keyboard
         keyboard.add(row);
@@ -573,7 +610,7 @@ public class B extends TelegramLongPollingBot {
     @Override
     public String getBotToken() {
         // Return bot token from BotFather
-        return "6791707338:AAHYG_UX7KzsntHNXJWhMKmLu_jXFAnLBpk";
+        return "6791707338:AAHuCpcnlysc-PqzwmeDom_3X4gbDOmZK4M";
     }
     
     

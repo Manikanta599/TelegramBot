@@ -27,4 +27,5 @@
     <fullyQualifiedTypeName name="com.Telegram.bot.Semisters"/>
     <fullyQualifiedTypeName name="com.mysql.cj.jdbc.PreparedStatementWrapper"/>
     <fullyQualifiedTypeName name="com.Telegram.bot.Registration"/>
+    <fullyQualifiedTypeName name="org.telegram.telegrambots.meta.api.objects.commands.BotCommand"/>
 </qualifiedTypeNameHistroy>

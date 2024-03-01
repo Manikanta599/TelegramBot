@@ -42,14 +42,15 @@ public class Registration extends B{
             	System.out.println("user already presenet");
             	SendMessage message = new SendMessage();
            	 	message.setChatId(chat_id);
-           	 	message.setText("User Already Present!!");
+           	 	message.setText("User Already Present Please Login!!");
+           	 	B.reg=0;
            	
            	try {
            	     execute(message);
            	 } catch (TelegramApiException e) {
            	     e.printStackTrace();
            	 } 	
-            	B.log=0;
+            	
             	}
             
             

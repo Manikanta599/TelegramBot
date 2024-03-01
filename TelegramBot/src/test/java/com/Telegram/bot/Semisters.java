@@ -39,7 +39,16 @@ public class Semisters extends B {
 	static int back_sem6=0;
 	static int back_sem7=0;
 	static int back_sem8=0;
+	
+	static double cgpa1=0.0;
+	static double cgpa2=0.0;
+	static double cgpa3=0.0;
+	static double cgpa4=0.0;
+	
+	
+	static int over=0;
     // Adding grade-value pairs to the HashMap
+	
    
 	ArrayList<String> sem1s = new ArrayList<>();
 	ArrayList<String> sem2s = new ArrayList<>();
@@ -115,11 +124,18 @@ public class Semisters extends B {
                 
                 
                 try {
-                    execute(message);
+                	if(over==0)
+                	{
+                		execute(message);
+                	}
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
                 
+            }
+            else
+            {
+            elseMsg(chat_id);
             }
         } 
         catch (SQLException e) {
@@ -216,10 +232,19 @@ public class Semisters extends B {
                 message.setChatId(chat_id);
                 message.setText(comb);
                 try {
-                    execute(message);
+                	if(over==0)
+                	{
+                		execute(message);
+                	}
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
+            }
+            else
+            {
+            	
+           	elseMsg(chat_id);
+           	
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -231,7 +256,25 @@ public class Semisters extends B {
     
     
     
-    private double calcSem2(String[] subjects) {
+    private void elseMsg(long chat_id) {
+		// TODO Auto-generated method stub
+    	SendMessage message = new SendMessage();
+   	 	message.setChatId(chat_id);
+   	 	message.setText("Results Not Updated!!");
+   	try {
+   	     execute(message);
+   	 } catch (TelegramApiException e) {
+   	     e.printStackTrace();
+   	 } 	
+		
+	}
+
+
+
+
+
+
+	private double calcSem2(String[] subjects) {
     	
     	HashMap<String, Double> cred = new HashMap<>();
     	
@@ -305,11 +348,19 @@ public class Semisters extends B {
                 message.setChatId(chat_id);
                 message.setText(comb);
                 try {
-                    execute(message);
+                	if(over==0)
+                	{
+                		execute(message);
+                	}
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
             }
+            else
+            {
+            elseMsg(chat_id);
+            }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -385,10 +436,17 @@ public class Semisters extends B {
                 message.setChatId(chat_id);
                 message.setText(comb);
                 try {
-                    execute(message);
+                	if(over==0)
+                	{
+                		execute(message);
+                	}
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
+            }
+            else
+            {
+            elseMsg(chat_id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -470,10 +528,17 @@ public class Semisters extends B {
                 message.setChatId(chat_id);
                 message.setText(comb);
                 try {
-                    execute(message);
+                	if(over==0)
+                	{
+                		execute(message);
+                	}
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
+            }
+            else
+            {
+            elseMsg(chat_id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -543,10 +608,17 @@ public class Semisters extends B {
                 message.setChatId(chat_id);
                 message.setText(comb);
                 try {
-                    execute(message);
+                	if(over==0)
+                	{
+                		execute(message);
+                	}
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
+            }
+            else
+            {
+            elseMsg(chat_id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -623,10 +695,17 @@ public class Semisters extends B {
                 message.setChatId(chat_id);
                 message.setText(comb);
                 try {
-                    execute(message);
+                	if(over==0)
+                	{
+                		execute(message);
+                	}
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
+            }
+            else
+            {
+            elseMsg(chat_id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -695,10 +774,18 @@ public class Semisters extends B {
                 message.setChatId(chat_id);
                 message.setText(comb);
                 try {
-                    execute(message);
+                	if(over==0)
+                	{
+                		execute(message);
+                	}
+                    
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
+            }
+            else
+            {
+            elseMsg(chat_id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -814,23 +901,52 @@ public class Semisters extends B {
     }
 
 
-    public void overview()
+    public void overview(long chat_id, String id)
     {
-    	System.out.println("come in");
-    	String[] strArray = sem1s.toArray(new String[0]);
-    	String[] strArray1 = sem2s.toArray(new String[0]);
-    	System.out.println(Arrays.toString(strArray));
-    	System.out.println(Arrays.toString(strArray1));
-    	double s1=calcSem1(strArray);
-    	double s2=calcSem2(strArray1);
-    	System.out.println("overvie");
-    	System.out.println(s1+" "+s2);
+    	over=1;
+    	Sem1(chat_id, id);
+    	Sem2(chat_id, id);
+    	Sem3(chat_id, id);
+    	Sem4(chat_id, id);
+    	Sem5(chat_id, id);
+    	Sem6(chat_id, id);
+    	Sem7(chat_id, id);
+    	Sem8(chat_id, id);
     	
-    	System.out.println();
+    	
+    	cgpa1=(sem1Spga+sem2Spga)/2;
+    	cgpa2=(sem3Spga+sem4Spga)/2;
+    	cgpa3=(sem5Spga+sem6Spga)/2;
+    	cgpa4=(sem7Spga+sem8Spga)/2;
+    	String comb="1st Year CGPA :"+cgpa1+"\n"+
+    			"Number of Backlogs :"+back_sem1+back_sem2+"\n"+"\n"+
+    			"2nd Year CGPA :"+cgpa2+"\n"+
+    			"Number of Backlogs :"+back_sem3+back_sem4+"\n"+"\n"+
+    			"3rd Year CGPA :"+cgpa3+"\n"+
+    			"Number of Backlogs :"+back_sem5+back_sem6+"\n"+"\n"+
+    			"4th Year CGPA :"+cgpa4+"\n"+
+    			"Number of Backlogs :"+back_sem7+back_sem8+"\n";
+    		
+    	SendMessage message = new SendMessage();
+   	 	message.setChatId(chat_id);
+   	 	message.setText(comb);
+   	try {
+   	     execute(message);
+   	 } catch (TelegramApiException e) {
+   	     e.printStackTrace();
+   	 } 
+    	over=0;
     }
 
 
     
+
+	
+
+
+
+
+
 
 	private int calcBack(String[] strArray) {
 	// TODO Auto-generated method stub

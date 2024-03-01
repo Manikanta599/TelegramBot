@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.sql.*;
+import org.telegram.telegrambots.meta.api.objects.commands.BotCommand.*;
 public class B extends TelegramLongPollingBot {
 	
 	private static final String url = "jdbc:mysql://localhost:3306/STU_dATA";
@@ -30,6 +31,7 @@ public class B extends TelegramLongPollingBot {
     static int nam=0;
     static int em=0;
     static int ph=0;
+    static int reg=0;
     
     Connection con1;
     @Override
@@ -94,99 +96,49 @@ public class B extends TelegramLongPollingBot {
          }
            
             else if(message_text.equals("sem 1")) {
-            	SendMessage message = new SendMessage();
-            	 message.setChatId(chat_id);
-            	message.setText("sem-1 selected");
+            	
             	sems.Sem1(chat_id,p.stu_id);
-            	try {
-            	     execute(message);
-            	 } catch (TelegramApiException e) {
-            	     e.printStackTrace();
-            	 } 	
+            	
             }
             
             else if(message_text.equals("sem 2")) {
-            	SendMessage message = new SendMessage();
-            	 message.setChatId(chat_id);
-            	message.setText("sem-2 selected");
+            	
             	sems.Sem2(chat_id,p.stu_id);
-            	try {
-            	     execute(message);
-            	 } catch (TelegramApiException e) {
-            	     e.printStackTrace();
-            	 } 	
+            	
             }
             
             else if(message_text.equals("sem 3")) {
-            	SendMessage message = new SendMessage();
-            	 message.setChatId(chat_id);
+            	
             	 sems.Sem3(chat_id, p.stu_id);
-            	message.setText("sem-3 selected");
-            	try {
-            	     execute(message);
-            	 } catch (TelegramApiException e) {
-            	     e.printStackTrace();
-            	 } 	
+            		
             }
             
             else if(message_text.equals("sem 4")) {
-            	SendMessage message = new SendMessage();
-            	 message.setChatId(chat_id);
+            	
             	 sems.Sem4(chat_id, p.stu_id);
-            	message.setText("sem-4 selected");
-            	try {
-            	     execute(message);
-            	 } catch (TelegramApiException e) {
-            	     e.printStackTrace();
-            	 } 	
+            		
             }
             
             else if(message_text.equals("sem 5")) {
-            	SendMessage message = new SendMessage();
-            	 message.setChatId(chat_id);
+            	
             	 sems.Sem5(chat_id, p.stu_id);
-            	message.setText("sem-5 selected");
-            	try {
-            	     execute(message);
-            	 } catch (TelegramApiException e) {
-            	     e.printStackTrace();
-            	 } 	
+            	
+            		
             }
             
             else if(message_text.equals("sem 6")) {
-            	SendMessage message = new SendMessage();
-            	 message.setChatId(chat_id);
+            	
             	 sems.Sem6(chat_id, p.stu_id);
-            	message.setText("sem-6 selected");
-            	try {
-            	     execute(message);
-            	 } catch (TelegramApiException e) {
-            	     e.printStackTrace();
-            	 } 	
+            		
             }
             
             else if(message_text.equals("sem 7")) {
-            	SendMessage message = new SendMessage();
-            	 message.setChatId(chat_id);
+            	
             	 sems.Sem7(chat_id, p.stu_id);
-            	message.setText("sem-7 selected");
-            	try {
-            	     execute(message);
-            	 } catch (TelegramApiException e) {
-            	     e.printStackTrace();
-            	 } 	
             }
             
             else if(message_text.equals("sem 8")) {
-            	SendMessage message = new SendMessage();
-            	 message.setChatId(chat_id);
             	 sems.Sem8(chat_id, p.stu_id);
-            	message.setText("sem-8 selected");
-            	try {
-            	     execute(message);
-            	 } catch (TelegramApiException e) {
-            	     e.printStackTrace();
-            	 } 	
             }
             
             else if(message_text.equals("return")) {
@@ -205,7 +157,7 @@ public class B extends TelegramLongPollingBot {
             else if(message_text.equals("Overview"))
             {
             	System.out.println("ovov");
-            	sems.overview();
+            	sems.overview(chat_id,p.stu_id);
             }
             
             else if(message_text.equals("View Profile"))
@@ -288,46 +240,89 @@ public class B extends TelegramLongPollingBot {
             	System.out.println("att");
             	attendenceMethod(chat_id,p.stu_id);
             }
-            else if(log==1)
+            else if(message_text.equals("Registration"))
             {
-            	System.out.println("log "+log);
+            	reg=1;
+            	System.out.println("regstarion");
+            	SendMessage message = new SendMessage();
+           	 	message.setChatId(chat_id);
+           	 	message.setText("Enter Regd number");
+           	try {
+           	     execute(message);
+           	 } catch (TelegramApiException e) {
+           	     e.printStackTrace();
+           	 } 	
+            }
+            else if(reg==1)
+            {
+            	System.out.println("reg "+reg);
             	if(!message_text.equals("Registration"))
             	{
             		//String msg="";
             		if(rg==0)
                 	{
             			
-            			SendMessage message = new SendMessage();
+                		r.regdID(chat_id,message_text);
+                		SendMessage message = new SendMessage();
                    	 	message.setChatId(chat_id);
-                   	 	message.setText("Enter Regd number");
+                   	 	message.setText("Enter Name");
+                   	try {
+                   		if(reg!=0)
+                   		{
+                   			execute(message);
+                   		}
+                   	     
+                   	 } catch (TelegramApiException e) {
+                   	     e.printStackTrace();
+                   	 } 	
+                	}
+                	else if(nam==0)
+                	{
+                		r.nameReg(chat_id,message_text);
+                		SendMessage message = new SendMessage();
+                   	 	message.setChatId(chat_id);
+                   	 	message.setText("Enter Email");
                    	try {
                    	     execute(message);
                    	 } catch (TelegramApiException e) {
                    	     e.printStackTrace();
                    	 } 	
-     
-                		r.regdID(chat_id,message_text);
-                	}
-                	else if(nam==0)
-                	{
-                		r.nameReg(chat_id,message_text);
                 	}
                 	else if(em==0)
                 	{
                 		r.emailReg(chat_id,message_text);
+                		SendMessage message = new SendMessage();
+                   	 	message.setChatId(chat_id);
+                   	 	message.setText("Enter Phone Number");
+                   	try {
+                   	     execute(message);
+                   	 } catch (TelegramApiException e) {
+                   	     e.printStackTrace();
+                   	 } 	
                 	}
                 	else if(ph==0)
                 	{
                 		r.phnoReg(chat_id,message_text);
-                	}
-                	else
-                	{
+                		
                 		if(rg==1&&nam==1&&em==1&&ph==1)
-                		{
-                			log=0;
-                			
-                		}
+                    	{
+                    		
+                    		
+                    			reg=0;
+                    			SendMessage message = new SendMessage();
+                           	 	message.setChatId(chat_id);
+                           	 	message.setText("Registration Successfull!!");
+                           	try {
+                           	     execute(message);
+                           	 } catch (TelegramApiException e) {
+                           	     e.printStackTrace();
+                           	 } 	
+                    			
+                    		
+                    	}
+                		
                 	}
+                	
             	}
             	
             }

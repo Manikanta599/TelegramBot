@@ -51,6 +51,10 @@ public class Profile extends B{
     	try {	
     	String ids=name.substring(0,3);
     	int id=Integer.parseInt(ids);
+    	if(id==0)
+    	{
+    		B.reg=1;
+    	}
     	stu_id=ids;
     	System.out.println(id);
     	String query="SELECT * FROM profile WHERE id=?";   	
@@ -76,8 +80,10 @@ public class Profile extends B{
     	{
     		SendMessage message = new SendMessage();
           	 message.setChatId(chatid);
-          	message.setText("InValid user Try again");
+          	message.setText("InValid user Try again "+"\n "+"or Register if you don't have account !!");
           	again=1;
+          	B.reg=1;
+          	B.log=0;
           	try {
           	     execute(message);
           	 } catch (TelegramApiException e) {

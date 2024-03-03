@@ -36,6 +36,7 @@ public class UpdateM extends B{
 	    String sub_code = arr[0];
 	    String sub_grade = arr[1];
 	    if (sem_name.equals("sem1")) {
+	    	
 	    	sem1Update(sub_code,sub_grade,id,sem_name,chatid);
 	    	System.out.println("semupdate1");
 	    }
@@ -93,6 +94,7 @@ public class UpdateM extends B{
             if (key.equals(sub_code)) {
             	
             	updateMet(sem_name,sub,sub_grade,id,chatid);
+            	f=true;
             }
 		}
 		if(!f)
@@ -124,6 +126,7 @@ public class UpdateM extends B{
             if (key.equals(sub_code)) {
             	
             	updateMet(sem_name,sub,sub_grade,id,chatid);
+            	f=true;
             }
 		}
 		
@@ -159,6 +162,7 @@ public class UpdateM extends B{
             if (key.equals(sub_code)) {
             	
             	updateMet(sem_name,sub,sub_grade,id,chatid);
+            	f=true;
             }
 		}
 		if(!f)
@@ -194,6 +198,7 @@ public class UpdateM extends B{
             if (key.equals(sub_code)) {
             	
             	updateMet(sem_name,sub,sub_grade,id,chatid);
+            	f=true;
             }
 		}
 		if(!f)
@@ -230,6 +235,7 @@ public class UpdateM extends B{
             if (key.equals(sub_code)) {
             	
             	updateMet(sem_name,sub,sub_grade,id,chatid);
+            	f=true;
             }
 		}
 		if(!f)
@@ -266,6 +272,7 @@ public class UpdateM extends B{
 	            if (key.equals(sub_code)) {
 	            	
 	            	updateMet(sem_name,sub,sub_grade,id,chatid);
+	            	f=true;
 	            }
 		 }
 		 if(!f)
@@ -300,6 +307,7 @@ public class UpdateM extends B{
             if (key.equals(sub_code)) {
             	
             	updateMet(sem_name,sub,sub_grade,id,chatid);
+            	f=true;
             }
 		}
         
@@ -311,6 +319,8 @@ public class UpdateM extends B{
 
 	private void sem1Update(String sub_code,String sub_grade,String id,String sem_name,long chatid)
 	{
+		
+		
 		System.out.println("sem name "+sem_name);
 		System.out.println("sem1");
 		HashMap<String, String> sem1 = new HashMap<>();
@@ -395,4 +405,182 @@ public class UpdateM extends B{
         }
 		
 	}
+	
+	private void sendMsg(long chat_id, String comb1) {
+		// TODO Auto-generated method stub
+		SendMessage message = new SendMessage();
+   	 	message.setChatId(chat_id);
+   	 	message.setText(comb1);
+   	try {
+   	     execute(message);
+   	 } catch (TelegramApiException e) {
+   	     e.printStackTrace();
+   	 } 
+	}
+
+	public void forSubCodes(long chat_id, String sem_name) {
+		// TODO Auto-generated method stub
+		
+		if(sem_name.equals("sem1"))
+		{
+			printSem1(chat_id);
+		}
+		else if(sem_name.equals("sem2"))
+		{
+			printSem2(chat_id);
+		}
+		else if(sem_name.equals("sem3"))
+		{
+			printSem3(chat_id);
+		}
+		else if(sem_name.equals("sem4"))
+		{
+			printSem4(chat_id);
+		}
+		else if(sem_name.equals("sem5"))
+		{
+			printSem5(chat_id);
+		}
+		else if(sem_name.equals("sem6"))
+		{
+			printSem6(chat_id);
+		}
+		else if(sem_name.equals("sem7"))
+		{
+			printSem7(chat_id);
+		}
+		else if(sem_name.equals("sem8"))
+		{
+			printSem8(chat_id);
+		}
+		
+	}
+
+	private void printSem8(long chat_id) {
+		// TODO Auto-generated method stub
+		String codes = "Sub_Code    Sub_Name\n" +
+                "HS4201      MGMT_ORG_BEHAVIOR\n" +
+                "OE4201      CLOUD_COMPUTING\n" +
+                "PE4201      DEVOPS\n" +
+                "PR4201      PROJECT_II\n";
+		
+		sendMsg(chat_id, codes);
+	}
+
+	private void printSem7(long chat_id) {
+		// TODO Auto-generated method stub
+		String codes = "Sub_Code    Sub_Name\n" +
+                "CS4101      CRYPTO_NETWORK_SECURITY\n" +
+                "CS4102      UML_DP\n" +
+                "CS4103      ML\n" +
+                "OE4101      EMBEDDED_SYS\n" +
+                "PE4101      SP_MANAGEMENT\n" +
+                "PE4102      CLOUD_COMPUTING\n" +
+                "CS4104      UML_LAB\n" +
+                "PR4101      PROJECT_1\n" +
+                "MC4101      IPR_PATENTS\n";
+
+		sendMsg(chat_id, codes);
+	}
+
+	private void printSem6(long chat_id) {
+		// TODO Auto-generated method stub
+		String codes = "Sub_Code    Sub_Name\n" +
+                "CS3201      WEB_TECH\n" +
+                "CS3202      DIST_SYS\n" +
+                "CS3203      DAA\n" +
+                "PE3201      MOOCS\n" +
+                "OE3201      RES\n" +
+                "HS3201      MEFA\n" +
+                "CS3204      WEB_TECH_LAB\n" +
+                "PR3201      INDUSTRIAL_TRAINING\n";
+		
+		sendMsg(chat_id, codes);
+		
+	}
+
+	private void printSem5(long chat_id) {
+		// TODO Auto-generated method stub
+		String codes = "Sub_Code    Sub_Name\n" +
+                "CS3101      DWDM\n" +
+                "CS3102      CN\n" +
+                "CS3103      CD\n" +
+                "CS3104      AI\n" +
+                "PE3101      STM\n" +
+                "CS3105      CN_LAB\n" +
+                "CS3106      AI_LAB\n" +
+                "CS3107      DM_LAB\n" +
+                "MC3101      ES_II\n";
+		
+		sendMsg(chat_id, codes);
+		
+	}
+
+	private void printSem4(long chat_id) {
+		// TODO Auto-generated method stub
+		String codes = "Sub_Code    Sub_Name\n" +
+                "BS2201      PROB_STATS\n" +
+                "CS2201      JAVA\n" +
+                "CS2202      OS\n" +
+                "CS2203      DBMS\n" +
+                "CS2204      FLAT\n" +
+                "CS2205      JAVA_LAB\n" +
+                "CS2206      UNIX_LAB\n" +
+                "CS2207      DBMS_LAB\n" +
+                "MC2201      ETHICS\n" +
+                "PR2201      SR_PROJECT\n";
+		sendMsg(chat_id, codes);
+		
+	}
+
+	private void printSem3(long chat_id) {
+		// TODO Auto-generated method stub
+		String codes = "Sub_Code    Sub_Name\n" +
+                "CS2101      MATH_FOUND_CS\n" +
+                "CS2102      SW_ENG\n" +
+                "ES2101      PY_PROG\n" +
+                "CS2103      DS\n" +
+                "CS2104      OOP_CPP\n" +
+                "CS2105      COMP_ORG\n" +
+                "ES2102      PY_PROG_LAB\n" +
+                "CS2106      DS_CPP_LAB\n" +
+                "MC2101      INDIAN_KNOWLEDGE\n" +
+                "MC2102      EM_SKILLS\n";
+		sendMsg(chat_id, codes);
+
+	}
+
+	private void printSem2(long chat_id) {
+		// TODO Auto-generated method stub
+		String codes = "Sub_Code    Sub_Name\n" +
+                "BS1202      MATH_II\n" +
+                "BS1203      MATH_III\n" +
+                "BS1204      AP\n" +
+                "ES1201      PROB_SOL_C\n" +
+                "ES1213      DIG_LOGIC_DES\n" +
+                "BS1205      AP_LAB\n" +
+                "HS1203      COMM_SKILLS_LAB\n" +
+                "ES1202      PROB_SOL_C_LAB\n" +
+                "PR1201      ENG_EXP_PROJ\n" +
+                "MC1204      CONSTITUTION\n";
+
+		sendMsg(chat_id, codes);
+	}
+
+	private void printSem1(long chat_id) {
+		String codes = "Sub_Code    Sub_Name\n" +
+	               "BS1101      Math\n" +
+	               "HS1101      Eng\n" +
+	               "BS1106      Chem\n" +
+	               "ES1112      CompSci\n" +
+	               "ES1103      EngDraw\n" +
+	               "HS1102      EngLab\n" +
+	               "BS1107      ChemLab\n" +
+	               "ES1105      ITWorkshop\n" +
+	               "MC1101      EnvSci\n";
+
+		sendMsg(chat_id, codes);
+		
+	}
+
 	}

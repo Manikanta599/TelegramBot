@@ -72,7 +72,8 @@ public class Semisters extends B {
     
  public void Sem1(long chat_id, String id) {
 	 ArrayList<String> strs = new ArrayList<>();
-        
+	 
+  
         try {
             
             String query = "SELECT * FROM sem1 WHERE ID=?";
@@ -135,7 +136,10 @@ public class Semisters extends B {
             }
             else
             {
-            elseMsg(chat_id);
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
             }
         } 
         catch (SQLException e) {
@@ -243,7 +247,10 @@ public class Semisters extends B {
             else
             {
             	
-           	elseMsg(chat_id);
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
            	
             }
         } catch (SQLException e) {
@@ -358,7 +365,10 @@ public class Semisters extends B {
             }
             else
             {
-            elseMsg(chat_id);
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
             }
             
         } catch (SQLException e) {
@@ -446,7 +456,10 @@ public class Semisters extends B {
             }
             else
             {
-            elseMsg(chat_id);
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -538,7 +551,10 @@ public class Semisters extends B {
             }
             else
             {
-            elseMsg(chat_id);
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -618,7 +634,10 @@ public class Semisters extends B {
             }
             else
             {
-            elseMsg(chat_id);
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -705,7 +724,10 @@ public class Semisters extends B {
             }
             else
             {
-            elseMsg(chat_id);
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -785,7 +807,11 @@ public class Semisters extends B {
             }
             else
             {
-            elseMsg(chat_id);
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
+            
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -904,6 +930,8 @@ public class Semisters extends B {
     public void overview(long chat_id, String id)
     {
     	over=1;
+    	double arr[]=new double[8];
+    	
     	Sem1(chat_id, id);
     	Sem2(chat_id, id);
     	Sem3(chat_id, id);
@@ -913,35 +941,142 @@ public class Semisters extends B {
     	Sem7(chat_id, id);
     	Sem8(chat_id, id);
     	
+    	arr[0]=sem1Spga;
+    	arr[1]=sem2Spga;
+    	arr[2]=sem3Spga;
+    	arr[3]=sem4Spga;
+    	arr[4]=sem5Spga;
+    	arr[5]=sem6Spga;
+    	arr[6]=sem7Spga;
+    	arr[7]=sem8Spga;
     	
-    	cgpa1=(sem1Spga+sem2Spga)/2;
-    	cgpa2=(sem3Spga+sem4Spga)/2;
-    	cgpa3=(sem5Spga+sem6Spga)/2;
-    	cgpa4=(sem7Spga+sem8Spga)/2;
-    	String comb="1st Year CGPA :"+cgpa1+"\n"+
-    			"Number of Backlogs :"+back_sem1+back_sem2+"\n"+"\n"+
-    			"2nd Year CGPA :"+cgpa2+"\n"+
-    			"Number of Backlogs :"+back_sem3+back_sem4+"\n"+"\n"+
-    			"3rd Year CGPA :"+cgpa3+"\n"+
-    			"Number of Backlogs :"+back_sem5+back_sem6+"\n"+"\n"+
-    			"4th Year CGPA :"+cgpa4+"\n"+
-    			"Number of Backlogs :"+back_sem7+back_sem8+"\n";
+    	int check=0;
+    	for(int i=0;i<arr.length;i++)
+    	{
+    		if(arr[i]!=0.0)
+    		{
+    			check=1;
+    		}
+    	}
+    	
+    	if(check==0)
+    	{
+    		SendMessage message = new SendMessage();
+       	 	message.setChatId(chat_id);
+       	 	message.setText("Results Not Updated!!");
+       	try {
+       	     execute(message);
+       	 } catch (TelegramApiException e) {
+       	     e.printStackTrace();
+       	 } 
+    	}
+    	
+    	else
+    	{
+    	
+    	for(int i=0;i<arr.length;i++)
+    	{
+    		if(arr[i]==0.0)
+    		{
+    			notupdated(chat_id,i+1);
+    		}
     		
-    	SendMessage message = new SendMessage();
-   	 	message.setChatId(chat_id);
-   	 	message.setText(comb);
-   	try {
-   	     execute(message);
-   	 } catch (TelegramApiException e) {
-   	     e.printStackTrace();
-   	 } 
+    	}
+    	
+    	
+    	
+    	
+    	
+    	cgpa1=Double.parseDouble(String.format("%.2f", (sem1Spga+sem2Spga)/2));
+    	
+    	cgpa2=Double.parseDouble(String.format("%.2f", (sem3Spga+sem4Spga)/2));
+    	
+    	cgpa3=Double.parseDouble(String.format("%.2f", (sem5Spga+sem6Spga)/2));
+    	
+    	cgpa4=Double.parseDouble(String.format("%.2f", (sem7Spga+sem8Spga)/2));
+    	
+    	StringBuilder messageBuilder = new StringBuilder();
+    	
+    	int c=0;
+
+    	if (cgpa1 != 0.0) {
+    	    messageBuilder.append("1st Year CGPA: ").append(cgpa1).append("\n")
+    	                   .append("Number of Backlogs: ").append(back_sem1 + back_sem2).append("\n\n");
+    	    c++;
+    	}
+
+    	if (cgpa2 != 0.0) {
+    	    messageBuilder.append("2nd Year CGPA: ").append(cgpa2).append("\n")
+    	                   .append("Number of Backlogs: ").append(back_sem3 + back_sem4).append("\n\n");
+    	    c++;
+    	}
+
+    	if (cgpa3 != 0.0) {
+    	    messageBuilder.append("3rd Year CGPA: ").append(cgpa3).append("\n")
+    	                   .append("Number of Backlogs: ").append(back_sem5 + back_sem6).append("\n\n");
+    	    c++;
+    	}
+
+    	if (cgpa4 != 0.0) {
+    	    messageBuilder.append("4th Year CGPA: ").append(cgpa4).append("\n")
+    	                   .append("Number of Backlogs: ").append(back_sem7 + back_sem8).append("\n\n");
+    	    c++;
+    	}
+    	
+    	double cgpa=0.0;
+    	if(c==4)
+    	{
+    		cgpa=Double.parseDouble(String.format("%.2f", (cgpa1+cgpa2+cgpa3+cgpa4)/4));
+    		messageBuilder.append("Total CGPA :").append(cgpa).append("\n");
+    	}
+    	
+    	// Send the message
+    	sendMsg(chat_id, messageBuilder.toString());
+    	
     	over=0;
+    	}
     }
 
 
     
 
 	
+
+
+
+
+
+
+	private void sendMsg(long chat_id, String comb1) {
+		// TODO Auto-generated method stub
+		SendMessage message = new SendMessage();
+   	 	message.setChatId(chat_id);
+   	 	message.setText(comb1);
+   	try {
+   	     execute(message);
+   	 } catch (TelegramApiException e) {
+   	     e.printStackTrace();
+   	 } 
+	}
+
+
+
+
+
+
+	private void notupdated(long chat_id, int i) {
+		// TODO Auto-generated method stub
+		
+		SendMessage message = new SendMessage();
+   	 	message.setChatId(chat_id);
+   	 	message.setText("Semester "+i+" not Updated!!");
+   	try {
+   	     execute(message);
+   	 } catch (TelegramApiException e) {
+   	     e.printStackTrace();
+   	 } 
+		
+	}
 
 
 

@@ -41,6 +41,8 @@ public class B extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
     	
     	
+    	
+    	
     		System.out.println("logout "+logout);
     	
     	try {
@@ -62,6 +64,10 @@ public class B extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             // Set variables
         	
+        	String name = update.getMessage().getFrom().getFirstName();
+
+        	System.out.println(name);
+        	
         	lg=0;
         	System.out.println("main inner");
             String message_text = update.getMessage().getText();
@@ -82,7 +88,8 @@ public class B extends TelegramLongPollingBot {
          		 message.setChatId(chat_id);
                   message.setText("Enter Subject Code and Grade"+"\n"+" Example : ES1112 O");
            		
-           		sem_name = message_text; 
+           		sem_name = message_text;
+           		up.forSubCodes(chat_id,sem_name);
            		
            		System.out.println("11"+sem_name);
            		try {
@@ -544,10 +551,45 @@ public class B extends TelegramLongPollingBot {
     {
     	SendMessage message = new SendMessage(); 
  		message.setChatId(chatid);
- 		message.setText("notes method");
+ 		message.setText("sem results..");
+ 		ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+        // Create the keyboard (list of keyboard rows)
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        // Create a keyboard row
+        KeyboardRow row = new KeyboardRow();
+        // Set each button, you can also use KeyboardButton objects if you need something else than text
+        
+        row.add("sem_1");
+        row.add("sem_2");
+        row.add("sem_3");
+        // Add the first row to the keyboard
+        keyboard.add(row);
+        // Create another keyboard row
+        KeyboardRow row2 = new KeyboardRow();
+        row2.add("sem_4");
+        row2.add("sem_5");
+        row2.add("sem_6");
+        
+        keyboard.add(row2);
+        
+        
+        KeyboardRow row3 = new KeyboardRow();
+        row3.add("sem_7");
+        row3.add("sem_8");
+        row3.add("return");
+        
+        keyboard.add(row3);
+        
+        // Set the keyboard to the markup
+        keyboardMarkup.setKeyboard(keyboard);
+        // Add it to the message
+        message.setReplyMarkup(keyboardMarkup);
+        
+        
+ 		
  		
  		try {
-            execute(message); 
+            execute(message); // Sending our message object to user
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -580,6 +622,17 @@ public class B extends TelegramLongPollingBot {
 		        }
 				
 				
+			}
+			else
+			{
+				SendMessage message = new SendMessage();
+		   	 	message.setChatId(chatid);
+		   	 	message.setText("Attendence Not Updated Yet!!");
+		   	try {
+		   	     execute(message);
+		   	 } catch (TelegramApiException e) {
+		   	     e.printStackTrace();
+		   	 } 
 			}
 			
 		} catch (SQLException e) {

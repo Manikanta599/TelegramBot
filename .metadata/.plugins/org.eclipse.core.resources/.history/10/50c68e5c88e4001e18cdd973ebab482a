@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Stream;
 
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -94,64 +93,53 @@ public class Semisters extends B {
                 String fc_lab = rs.getString("ITWorkshop");
                 String env=rs.getString("EnvSci");
                 
+                strs.add(m1);strs.add(eng); strs.add(che);strs.add(fc);strs.add(ed);strs.add(eng_l);strs.add(che_l);strs.add(fc_lab);
                 
-                if (Stream.of(m1, che, fc, eng, ed, eng_l, che_l, fc_lab).allMatch(obj -> obj == null)) {
-                  
+                sem1s=strs;
+                
+                String[] strArray = strs.toArray(new String[0]);
+                
+                
+                sem1Spga=calcSem1(strArray);
+                
+                
+                back_sem1=calcBack(strArray);
+                System.out.println("backlogs "+back_sem1);
+                
+                String combinedMessage ="ID"+ids + "\n" +"Mathematics 1"+ m1 + "\n" +"English"+ eng + "\n"+"Chemistry" + che + "\n"+"Fundementals of C.S " + fc + "\n" +"Engineering Drawing"+ ed + "\n"
+                        +"English Lab"+ eng_l + "\n"+"Chemistry lab" + che_l + "\n" +"FCS Lab"+ fc_lab+ "\n" +"SGPA "+ "\n" +"Env Science "+env+sem1Spga+ "\n" +
+                		""+ "\n" +"No of Backlogs :" + back_sem1;
+                
+                
+               //sem1Spga=calcSem1(m1,eng,che,fc,ed,eng_l,che_l,fc_lab);
+               
+               System.out.println(sem1Spga);
+                
+                System.out.println("here 1");
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(combinedMessage);
+                
+                System.out.println("after msg");
+                
+                
+                try {
                 	if(over==0)
                 	{
-                		elseMsg(chat_id);
+                		execute(message);
                 	}
-              }
-                else
-                {
-
-                    strs.add(m1);strs.add(eng); strs.add(che);strs.add(fc);strs.add(ed);strs.add(eng_l);strs.add(che_l);strs.add(fc_lab);
-                    
-                    sem1s=strs;
-                    
-                    String[] strArray = strs.toArray(new String[0]);
-                    
-                    
-                    sem1Spga=calcSem1(strArray);
-                    
-                    
-                    back_sem1=calcBack(strArray);
-                    System.out.println("backlogs "+back_sem1);
-                    
-                    String combinedMessage ="ID"+ids + "\n" +"Mathematics 1"+ m1 + "\n" +"English"+ eng + "\n"+"Chemistry" + che + "\n"+"Fundementals of C.S " + fc + "\n" +"Engineering Drawing"+ ed + "\n"
-                            +"English Lab"+ eng_l + "\n"+"Chemistry lab" + che_l + "\n" +"FCS Lab"+ fc_lab+ "\n" +"SGPA "+ "\n" +"Env Science "+env+sem1Spga+ "\n" +
-                    		""+ "\n" +"No of Backlogs :" + back_sem1;
-                    
-                    
-                   //sem1Spga=calcSem1(m1,eng,che,fc,ed,eng_l,che_l,fc_lab);
-                   
-                   System.out.println(sem1Spga);
-                    
-                    System.out.println("here 1");
-                    
-                    SendMessage message = new SendMessage();
-                    message.setChatId(chat_id);
-                    message.setText(combinedMessage);
-                    
-                    System.out.println("after msg");
-                    
-                    
-                    try {
-                    	if(over==0)
-                    	{
-                    		execute(message);
-                    	}
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
                 }
-
-                
                 
             }
             else
             {
-            	System.out.println("number not updated..");
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
             }
         } 
         catch (SQLException e) {
@@ -218,64 +206,51 @@ public class Semisters extends B {
                 String prob_sol_c_lab = rs.getString("PROB_SOL_C_LAB");
                 String comm_skills_lab = rs.getString("COMM_SKILLS_LAB");
                 String constitution = rs.getString("CONSTITUTION");
+                strs.add(ap);strs.add(prob_sol_c);strs.add(dig_logic_des);strs.add(math_ii);strs.add(math_iii);
+                strs.add(eng_exp_proj);strs.add(ap_lab);strs.add(prob_sol_c_lab);strs.add(comm_skills_lab);
                 
-                if (Stream.of(ap, prob_sol_c, dig_logic_des, math_ii, math_iii, eng_exp_proj, ap_lab, prob_sol_c_lab, comm_skills_lab)
-                        .allMatch(obj -> obj == null)) {
-                  
+                String[] strArray = strs.toArray(new String[0]);
+                
+                sem2s=strs;
+                sem2Spga=calcSem2(strArray);
+                
+                back_sem2=calcBack(strArray);
+                
+                // Constructing the message with clear alignment
+                String comb = String.format("%-35s%-15s\n", "***Subject Name***", "***Grade***") +
+                              String.format("%-5s%-30s%-15s\n", "ID:", ids, "") +
+                              String.format("%-30s%-25s\n", "APPLIED_PHYSICS:", ap) +
+                              String.format("%-30s%-25s\n", "C_LANGUAGE:", prob_sol_c) +
+                              String.format("%-30s%-25s\n", "DIGITAL_L_DESIGN:", dig_logic_des) +
+                              String.format("%-30s%-25s\n", "MATHEMATICS_II:", math_ii) +
+                              String.format("%-30s%-25s\n", "MATHEMATICS_III:", math_iii) +
+                              String.format("%-30s%-25s\n", "ENG_E_PROJECT:", eng_exp_proj) +
+                              String.format("%-30s%-25s\n", "PHYSICS_LAB:", ap_lab) +
+                              String.format("%-30s%-25s\n", "C_LAB:", prob_sol_c_lab) +
+                              String.format("%-30s%-25s\n", "COMM_SKILLS_LAB:", comm_skills_lab) +
+                              String.format("%-30s%-25s\n", "CONST_OF_INDIA:", constitution)+
+                              String.format("%-30s%-25s\n", "SGPA  :",sem2Spga)+
+                			  String.format("%-30s%-25s\n", "No OF Backlog   :",back_sem2);
+
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
                 	if(over==0)
                 	{
-                		elseMsg(chat_id);
+                		execute(message);
                 	}
-              }
-                else
-                {
-
-                    strs.add(ap);strs.add(prob_sol_c);strs.add(dig_logic_des);strs.add(math_ii);strs.add(math_iii);
-                    strs.add(eng_exp_proj);strs.add(ap_lab);strs.add(prob_sol_c_lab);strs.add(comm_skills_lab);
-                    
-                    String[] strArray = strs.toArray(new String[0]);
-                    
-                    sem2s=strs;
-                    sem2Spga=calcSem2(strArray);
-                    
-                    back_sem2=calcBack(strArray);
-                    
-                    // Constructing the message with clear alignment
-                    String comb = String.format("%-35s%-15s\n", "***Subject Name***", "***Grade***") +
-                                  String.format("%-5s%-30s%-15s\n", "ID:", ids, "") +
-                                  String.format("%-30s%-25s\n", "APPLIED_PHYSICS:", ap) +
-                                  String.format("%-30s%-25s\n", "C_LANGUAGE:", prob_sol_c) +
-                                  String.format("%-30s%-25s\n", "DIGITAL_L_DESIGN:", dig_logic_des) +
-                                  String.format("%-30s%-25s\n", "MATHEMATICS_II:", math_ii) +
-                                  String.format("%-30s%-25s\n", "MATHEMATICS_III:", math_iii) +
-                                  String.format("%-30s%-25s\n", "ENG_E_PROJECT:", eng_exp_proj) +
-                                  String.format("%-30s%-25s\n", "PHYSICS_LAB:", ap_lab) +
-                                  String.format("%-30s%-25s\n", "C_LAB:", prob_sol_c_lab) +
-                                  String.format("%-30s%-25s\n", "COMM_SKILLS_LAB:", comm_skills_lab) +
-                                  String.format("%-30s%-25s\n", "CONST_OF_INDIA:", constitution)+
-                                  String.format("%-30s%-25s\n", "SGPA  :",sem2Spga)+
-                    			  String.format("%-30s%-25s\n", "No OF Backlog   :",back_sem2);
-
-                    SendMessage message = new SendMessage();
-                    message.setChatId(chat_id);
-                    message.setText(comb);
-                    try {
-                    	if(over==0)
-                    	{
-                    		execute(message);
-                    	}
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
                 }
-                
-                
             }
-            
             else
             {
             	System.out.println(over+"over in sem");
-            	
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
            	
             }
         } catch (SQLException e) {
@@ -354,64 +329,52 @@ public class Semisters extends B {
                 String py_prog_lab = rs.getString("PY_PROG_LAB");
                 String em_skills = rs.getString("EM_SKILLS");
                 String indian_knowledge = rs.getString("INDIAN_KNOWLEDGE");
+                strs.add(sw_eng);strs.add(py_prog);strs.add(ds);strs.add(comp_org);strs.add(oop_cpp);strs.add(math_found_cs);
+                strs.add(ds_cpp_lab);strs.add(py_prog_lab);
                 
-                if (Stream.of(sw_eng, py_prog, ds, comp_org, oop_cpp, math_found_cs, ds_cpp_lab, py_prog_lab)
-                        .allMatch(obj -> obj == null)) {
-                  
+                String[] strArray = strs.toArray(new String[0]);
+                sem3Spga=calcSem3(strArray);
+                
+                back_sem3=calcBack(strArray);
+                
+                String comb = "ID: " + ids + "\n" +
+                              "SOFTWARE_ENGINEERING: " + sw_eng + "\n" +
+                              " PYTHON_PROGRAMMING: " + py_prog + "\n" +
+                              "DATA_STRUCTURES : " + ds + "\n" +
+                              "COMPUTER_ORGANIZATION: " + comp_org + "\n" +
+                              "OBJECT_ORIENTED_PROGRAMM_THROUGH_CPP: " + oop_cpp + "\n" +
+                              "MATHEMATICAL_FOUNDATIONS_OF_COMPUTER_SCIENCE: " + math_found_cs + "\n" +
+                              "DATA_STRUCTURES_THROUGH_CPP_LAB: " + ds_cpp_lab + "\n" +
+                              "PYTHON_PROGRAMMING_LAB: " + py_prog_lab + "\n" +
+                              "EMPLOYABILITY_SKILLS_I: " + em_skills + "\n" +
+                              "ESSENCE_OF_INDIAN_TRADITIONAL_KNOWLEDGE: " + indian_knowledge+ "\n" +
+                               "SGPA "+sem3Spga+ "\n" +
+                              "No of BackLogs "+back_sem3;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
                 	if(over==0)
                 	{
-                		elseMsg(chat_id);
+                		execute(message);
                 	}
-              }
-                else
-                {
-
-                    strs.add(sw_eng);strs.add(py_prog);strs.add(ds);strs.add(comp_org);strs.add(oop_cpp);strs.add(math_found_cs);
-                    strs.add(ds_cpp_lab);strs.add(py_prog_lab);
-                    
-                    String[] strArray = strs.toArray(new String[0]);
-                    sem3Spga=calcSem3(strArray);
-                    
-                    back_sem3=calcBack(strArray);
-                    
-                    String comb = "ID: " + ids + "\n" +
-                                  "SOFTWARE_ENGINEERING: " + sw_eng + "\n" +
-                                  " PYTHON_PROGRAMMING: " + py_prog + "\n" +
-                                  "DATA_STRUCTURES : " + ds + "\n" +
-                                  "COMPUTER_ORGANIZATION: " + comp_org + "\n" +
-                                  "OBJECT_ORIENTED_PROGRAMM_THROUGH_CPP: " + oop_cpp + "\n" +
-                                  "MATHEMATICAL_FOUNDATIONS_OF_COMPUTER_SCIENCE: " + math_found_cs + "\n" +
-                                  "DATA_STRUCTURES_THROUGH_CPP_LAB: " + ds_cpp_lab + "\n" +
-                                  "PYTHON_PROGRAMMING_LAB: " + py_prog_lab + "\n" +
-                                  "EMPLOYABILITY_SKILLS_I: " + em_skills + "\n" +
-                                  "ESSENCE_OF_INDIAN_TRADITIONAL_KNOWLEDGE: " + indian_knowledge+ "\n" +
-                                   "SGPA "+sem3Spga+ "\n" +
-                                  "No of BackLogs "+back_sem3;
-                    
-                    SendMessage message = new SendMessage();
-                    message.setChatId(chat_id);
-                    message.setText(comb);
-                    try {
-                    	if(over==0)
-                    	{
-                    		execute(message);
-                    	}
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
                 }
-
             }
             else
             {
-            	System.out.println("number is not updated..");
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
             }
             
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-	
  
     private double calcSem3(String[] subjects) {
 		// TODO Auto-generated method stub
@@ -455,61 +418,48 @@ public class Semisters extends B {
                 String unix_lab = rs.getString("UNIX_LAB");
                 String ethics = rs.getString("ETHICS");
                 
+                strs.add(os);strs.add(dbms);strs.add(flat);strs.add(prob_stats);strs.add(java);strs.add(sr_project);strs.add(java_lab);
+                strs.add(dbms_lab);strs.add(unix_lab);
                 
-                if (Stream.of(os, dbms, flat, prob_stats, java, sr_project, java_lab, dbms_lab, unix_lab)
-                        .allMatch(obj -> obj == null)) {
-                  
+                String[] strArray = strs.toArray(new String[0]);
+
+                
+                sem4Spga=calcSem4(strArray);
+                back_sem4=calcBack(strArray);
+                
+                String comb = "ID: " + ids + "\n" +
+                              "OPERATING_SYSTEMS: " + os + "\n" +
+                              "DATABASE_MANAGEMENT_SYSTEMS: " + dbms + "\n" +
+                              "FORMAL_LANGUAGES_AND_AUTOMATA_THEORY: " + flat + "\n" +
+                              "PROBABILITY_AND_STATISTICS: " + prob_stats + "\n" +
+                              "JAVA_PROGRAMMING: " + java + "\n" +
+                              "SOCIALLY_RELEVANT_PROJECT: " + sr_project + "\n" +
+                              "JAVA_PROGRAMMING_LAB: " + java_lab + "\n" +
+                              "DATABASE_MANAGEMENT_SYSTEMS_LAB: " + dbms_lab + "\n" +
+                              "UNIX_OPERATING_SYSTEMS_LAB: " + unix_lab + "\n" +
+                              "PROFESSIONAL_ETHICS_AND_HUMAN_VALUES: " + ethics+ "\n" +
+                              "SGPA  : "+sem4Spga + "\n" +
+                              "No of Backlogs :"+back_sem4;
+                
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
                 	if(over==0)
                 	{
-                		elseMsg(chat_id);
+                		execute(message);
                 	}
-                	
-              }
-                else
-                {
-                	 
-                    strs.add(os);strs.add(dbms);strs.add(flat);strs.add(prob_stats);strs.add(java);strs.add(sr_project);strs.add(java_lab);
-                    strs.add(dbms_lab);strs.add(unix_lab);
-                    
-                    String[] strArray = strs.toArray(new String[0]);
-
-                    
-                    sem4Spga=calcSem4(strArray);
-                    back_sem4=calcBack(strArray);
-                    
-                    String comb = "ID: " + ids + "\n" +
-                                  "OPERATING_SYSTEMS: " + os + "\n" +
-                                  "DATABASE_MANAGEMENT_SYSTEMS: " + dbms + "\n" +
-                                  "FORMAL_LANGUAGES_AND_AUTOMATA_THEORY: " + flat + "\n" +
-                                  "PROBABILITY_AND_STATISTICS: " + prob_stats + "\n" +
-                                  "JAVA_PROGRAMMING: " + java + "\n" +
-                                  "SOCIALLY_RELEVANT_PROJECT: " + sr_project + "\n" +
-                                  "JAVA_PROGRAMMING_LAB: " + java_lab + "\n" +
-                                  "DATABASE_MANAGEMENT_SYSTEMS_LAB: " + dbms_lab + "\n" +
-                                  "UNIX_OPERATING_SYSTEMS_LAB: " + unix_lab + "\n" +
-                                  "PROFESSIONAL_ETHICS_AND_HUMAN_VALUES: " + ethics+ "\n" +
-                                  "SGPA  : "+sem4Spga + "\n" +
-                                  "No of Backlogs :"+back_sem4;
-                    
-                    
-                    SendMessage message = new SendMessage();
-                    message.setChatId(chat_id);
-                    message.setText(comb);
-                    try {
-                    	if(over==0)
-                    	{
-                    		execute(message);
-                    	}
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
                 }
-
-               }
             }
             else
             {
-            	System.out.println("number not updated");
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -566,54 +516,45 @@ public class Semisters extends B {
                 String ai_lab = rs.getString("AI_LAB");
                 String dm_lab = rs.getString("DM_LAB");
                 
-                if (Stream.of(cn, cd, ai, dwdm, stm, cn_lab, ai_lab, dm_lab)
-                        .allMatch(obj -> obj == null)) {
-                	
+                strs.add(cn);strs.add(cd);strs.add(ai);strs.add(dwdm);strs.add(stm);strs.add(cn_lab);strs.add(ai_lab);
+                strs.add(dm_lab);
+                String[] strArray = strs.toArray(new String[0]);
+
+                sem5Spga=calcSem5(strArray);
+                
+                back_sem5=calcBack(strArray);
+                
+                String comb = "ID: " + ids + "\n" +
+                              "COMPUTER_NETWORKS: " + cn + "\n" +
+                              "COMPILER_DESIGN: " + cd + "\n" +
+                              "ARTIFICIAL_INTELLIGENCE: " + ai + "\n" +
+                              "DATA_WAREHOUSING_AND_DATA_MINING: " + dwdm + "\n" +
+                              "SOFTWARE_TESTING_METHODOLOGIES: " + stm + "\n" +
+                              "EMPLOYABILITY_SKILLS_II: " + es_ii + "\n" +
+                              "COMPUTER_NETWORKS_LAB: " + cn_lab + "\n" +
+                              "AI_TOOLS_AND_TECHNIQUES_LAB: " + ai_lab + "\n" +
+                              "DATA_MINING_LAB: " + dm_lab + "\n" +
+                              "SGPA : "+sem5Spga+ "\n" +
+                              "No of Backlogs "+back_sem5;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
                 	if(over==0)
                 	{
-                		elseMsg(chat_id);
+                		execute(message);
                 	}
-                 
-              }
-                else
-                {
-                	strs.add(cn);strs.add(cd);strs.add(ai);strs.add(dwdm);strs.add(stm);strs.add(cn_lab);strs.add(ai_lab);
-                    strs.add(dm_lab);
-                    String[] strArray = strs.toArray(new String[0]);
-
-                    sem5Spga=calcSem5(strArray);
-                    
-                    back_sem5=calcBack(strArray);
-                    
-                    String comb = "ID: " + ids + "\n" +
-                                  "COMPUTER_NETWORKS: " + cn + "\n" +
-                                  "COMPILER_DESIGN: " + cd + "\n" +
-                                  "ARTIFICIAL_INTELLIGENCE: " + ai + "\n" +
-                                  "DATA_WAREHOUSING_AND_DATA_MINING: " + dwdm + "\n" +
-                                  "SOFTWARE_TESTING_METHODOLOGIES: " + stm + "\n" +
-                                  "EMPLOYABILITY_SKILLS_II: " + es_ii + "\n" +
-                                  "COMPUTER_NETWORKS_LAB: " + cn_lab + "\n" +
-                                  "AI_TOOLS_AND_TECHNIQUES_LAB: " + ai_lab + "\n" +
-                                  "DATA_MINING_LAB: " + dm_lab + "\n" +
-                                  "SGPA : "+sem5Spga+ "\n" +
-                                  "No of Backlogs "+back_sem5;
-                    
-                    SendMessage message = new SendMessage();
-                    message.setChatId(chat_id);
-                    message.setText(comb);
-                    try {
-                    	if(over==0)
-                    	{
-                    		execute(message);
-                    	}
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
                 }
             }
             else
             {
-            	System.out.println("number not updated..");
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -661,8 +602,6 @@ public class Semisters extends B {
                 String moocs = rs.getString("MOOCS");
                 String industrial_training = rs.getString("INDUSTRIAL_TRAINING");
                 String web_tech_lab = rs.getString("WEB_TECH_LAB");
-                
-                System.out.println(strs);
                 strs.add(res);strs.add(web_tech);strs.add(dist_sys);strs.add(daa);strs.add(mefa);strs.add(moocs);strs.add(web_tech_lab);strs.add(industrial_training);
                 String[] strArray = strs.toArray(new String[0]);
                 back_sem6=calcBack(strArray);
@@ -750,55 +689,45 @@ public class Semisters extends B {
                 String project_1 = rs.getString("PROJECT_1");
                 String ipr_patents = rs.getString("IPR_PATENTS");
                 String uml_lab = rs.getString("UML_LAB");
+                strs.add(uml_dp);strs.add(sp_management);strs.add(crypto_network_security);strs.add(ml);strs.add(embedded_sys);
+                strs.add(cloud_computing);strs.add(project_1);strs.add(uml_lab);
                 
-                if (Stream.of(uml_dp, sp_management, crypto_network_security, ml, embedded_sys, cloud_computing, project_1, uml_lab)
-                        .allMatch(obj -> obj == null)) {
-                  
+               
+                String[] strArray = strs.toArray(new String[0]);
+                sem7Spga=calcSem7(strArray);
+
+                back_sem7=calcBack(strArray);
+                String comb = "ID: " + ids + "\n" +
+                              "UML_AND_DESIGN_PATTERNS: " + uml_dp + "\n" +
+                              "SOFTWARE_PROJECT_MANAGEMENT: " + sp_management + "\n" +
+                              "CRYPTOGRAPHY_AND_NETWORK_SECURITY: " + crypto_network_security + "\n" +
+                              "MACHINE_LEARNING: " + ml + "\n" +
+                              "EMBEDDED_SYSTEMS: " + embedded_sys + "\n" +
+                              "CLOUD_COMPUTING: " + cloud_computing + "\n" +
+                              "PROJECT_1: " + project_1 + "\n" +
+                              "IPR_AND_PATENTS: " + ipr_patents + "\n" +
+                              "UML_LAB: " + uml_lab+ "\n" +
+                              "SGPA : "+sem7Spga+ "\n" +
+                              "No of BackLogs "+back_sem7;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
                 	if(over==0)
                 	{
-                		elseMsg(chat_id);
+                		execute(message);
                 	}
-              }
-                else
-                {
-                	strs.add(uml_dp);strs.add(sp_management);strs.add(crypto_network_security);strs.add(ml);strs.add(embedded_sys);
-                    strs.add(cloud_computing);strs.add(project_1);strs.add(uml_lab);
-                    
-                   
-                    String[] strArray = strs.toArray(new String[0]);
-                    sem7Spga=calcSem7(strArray);
-
-                    back_sem7=calcBack(strArray);
-                    String comb = "ID: " + ids + "\n" +
-                                  "UML_AND_DESIGN_PATTERNS: " + uml_dp + "\n" +
-                                  "SOFTWARE_PROJECT_MANAGEMENT: " + sp_management + "\n" +
-                                  "CRYPTOGRAPHY_AND_NETWORK_SECURITY: " + crypto_network_security + "\n" +
-                                  "MACHINE_LEARNING: " + ml + "\n" +
-                                  "EMBEDDED_SYSTEMS: " + embedded_sys + "\n" +
-                                  "CLOUD_COMPUTING: " + cloud_computing + "\n" +
-                                  "PROJECT_1: " + project_1 + "\n" +
-                                  "IPR_AND_PATENTS: " + ipr_patents + "\n" +
-                                  "UML_LAB: " + uml_lab+ "\n" +
-                                  "SGPA : "+sem7Spga+ "\n" +
-                                  "No of BackLogs "+back_sem7;
-                    
-                    SendMessage message = new SendMessage();
-                    message.setChatId(chat_id);
-                    message.setText(comb);
-                    try {
-                    	if(over==0)
-                    	{
-                    		execute(message);
-                    	}
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
                 }
-
             }
             else
             {
-            	System.out.println("number not updated..7");
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -824,7 +753,10 @@ public class Semisters extends B {
         double sgpa=calculateSGPA(subjects,subj,cred);
         System.out.println("reru");
         return sgpa;
-   
+    	
+    	
+    	
+		
 	}
 
 
@@ -847,48 +779,39 @@ public class Semisters extends B {
                 String devops = rs.getString("DEVOPS");
                 String mgmt_org_behavior = rs.getString("MGMT_ORG_BEHAVIOR");
                 String project_ii = rs.getString("PROJECT_II");
+                strs.add(tqm);strs.add(devops);strs.add(mgmt_org_behavior);strs.add(project_ii);
+                String[] strArray = strs.toArray(new String[0]);
                 
-                if (Stream.of(tqm, devops, mgmt_org_behavior, project_ii)
-                        .allMatch(obj -> obj == null)) {
-                	
+                sem8Spga=calcSem8(strArray);
+                back_sem8=calcBack(strArray);
+                String comb = "ID: " + ids + "\n" +
+                              "TOTAL_QUALITY_MANAGEMENT: " + tqm + "\n" +
+                              "DEVOPS: " + devops + "\n" +
+                              "MANAGEMENT_AND_ORGANIZATIONAL_BEHAVIOR: " + mgmt_org_behavior + "\n" +
+                              "PROJECT_II: " + project_ii + "\n" +
+                              "SGPA "+sem8Spga+ "\n" +
+                              "No of Backlogs : "+back_sem8;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
                 	if(over==0)
                 	{
-                		elseMsg(chat_id);
+                		execute(message);
                 	}
-              }
-                else
-                {
-                	 strs.add(tqm);strs.add(devops);strs.add(mgmt_org_behavior);strs.add(project_ii);
-                     String[] strArray = strs.toArray(new String[0]);
-                     
-                     sem8Spga=calcSem8(strArray);
-                     back_sem8=calcBack(strArray);
-                     String comb = "ID: " + ids + "\n" +
-                                   "TOTAL_QUALITY_MANAGEMENT: " + tqm + "\n" +
-                                   "DEVOPS: " + devops + "\n" +
-                                   "MANAGEMENT_AND_ORGANIZATIONAL_BEHAVIOR: " + mgmt_org_behavior + "\n" +
-                                   "PROJECT_II: " + project_ii + "\n" +
-                                   "SGPA "+sem8Spga+ "\n" +
-                                   "No of Backlogs : "+back_sem8;
-                     
-                     SendMessage message = new SendMessage();
-                     message.setChatId(chat_id);
-                     message.setText(comb);
-                     try {
-                     	if(over==0)
-                     	{
-                     		execute(message);
-                     	}
-                         
-                     } catch (TelegramApiException e) {
-                         e.printStackTrace();
-                     }
+                    
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
                 }
-
             }
             else
             {
-            	System.out.println("number is not updated 8");
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
+            
             }
         } catch (SQLException e) {
             e.printStackTrace();

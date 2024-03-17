@@ -95,9 +95,7 @@ public class Profile extends B{
     	{
     	e.printStackTrace();
     	}
-    	
-    	
-    	
+  
 	}
 
 

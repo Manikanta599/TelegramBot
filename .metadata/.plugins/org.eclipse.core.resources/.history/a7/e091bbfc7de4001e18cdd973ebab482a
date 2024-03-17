@@ -60,7 +60,6 @@ public class B extends TelegramLongPollingBot {
     	Semisters sems=new Semisters(con1);
     	UpdateM up =new UpdateM(con1);
     	Registration r=new Registration(con1);
-    	Notes notes=new Notes();
         // We check if the update has a message and the message has text
         if (update.hasMessage() && update.getMessage().hasText()) {
             // Set variables
@@ -332,12 +331,6 @@ public class B extends TelegramLongPollingBot {
             	System.out.println("reg==1");
             	regm(chat_id,message_text,r);
             	
-            }
-            
-            
-            else if(message_text.equals("Notes"))
-            {
-            	notes.semsView(chat_id);
             }
   
         } 

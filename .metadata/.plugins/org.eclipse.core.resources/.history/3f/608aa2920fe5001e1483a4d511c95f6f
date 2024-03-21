@@ -1112,23 +1112,14 @@ public class Semisters extends B {
     	}
     	
     	double cgpa=0.0;
-    	boolean pr=false;
     	if(c==4)
     	{
     		cgpa=Double.parseDouble(String.format("%.2f", (cgpa1+cgpa2+cgpa3+cgpa4)/4));
     		messageBuilder.append("Total CGPA :").append(cgpa).append("\n");
-    		pr=true;
     	}
     	
     	// Send the message
-    	
-    		sendMsg(chat_id, messageBuilder.toString());
-    	
-    	if(pr==false)
-    	{
-    		sendMsg(chat_id, "Results not Updated..");
-    		System.out.println("overview not updated");
-    	}
+    	sendMsg(chat_id, messageBuilder.toString());
     	
     	over=0;
     	System.out.println(over+"over");

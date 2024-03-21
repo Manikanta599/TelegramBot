@@ -1,5 +1,4 @@
 package com.Telegram.bot;
-import org.apache.commons.lang3.stream.Streams;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -664,52 +663,42 @@ public class Semisters extends B {
                 String web_tech_lab = rs.getString("WEB_TECH_LAB");
                 
                 System.out.println(strs);
+                strs.add(res);strs.add(web_tech);strs.add(dist_sys);strs.add(daa);strs.add(mefa);strs.add(moocs);strs.add(web_tech_lab);strs.add(industrial_training);
+                String[] strArray = strs.toArray(new String[0]);
+                back_sem6=calcBack(strArray);
                 
-                if(Streams.of(res, web_tech, dist_sys, daa, mefa, moocs, industrial_training, web_tech_lab).allMatch(obj -> obj == null))
-                {
+                
+                sem6Spga=calcSem6(strArray);
+                String comb = "ID: " + ids + "\n" +
+                              "RENEWABLE_ENERGY_SOURCES: " + res + "\n" +
+                              "WEB_TECHNOLOGIES: " + web_tech + "\n" +
+                              "DISTRIBUTED_SYSTEMS: " + dist_sys + "\n" +
+                              "DESIGN_AND_ANALYSIS_OF_ALGORITHMS: " + daa + "\n" +
+                              "MANAGERIAL_ECONOMICS_AND_FINANCIAL_ACCOUNTANCY: " + mefa + "\n" +
+                              "MOOCS: " + moocs + "\n" +
+                              "INDUSTRIAL_TRAINING_SKILL_DEVELOP_RESEARCH_PROJECT: " + industrial_training + "\n" +
+                              "WEB_TECHNOLOGIES_LAB: " + web_tech_lab + "\n" +
+                              "SGPA :"+sem6Spga + "\n" +
+                              "No of Backlogs "+back_sem6;
+                
+                SendMessage message = new SendMessage();
+                message.setChatId(chat_id);
+                message.setText(comb);
+                try {
                 	if(over==0)
                 	{
-                		elseMsg(chat_id);
+                		execute(message);
                 	}
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
                 }
-                else
-                {
-                	 strs.add(res);strs.add(web_tech);strs.add(dist_sys);strs.add(daa);strs.add(mefa);strs.add(moocs);strs.add(web_tech_lab);strs.add(industrial_training);
-                     String[] strArray = strs.toArray(new String[0]);
-                     back_sem6=calcBack(strArray);
-                     
-                     
-                     sem6Spga=calcSem6(strArray);
-                     String comb = "ID: " + ids + "\n" +
-                                   "RENEWABLE_ENERGY_SOURCES: " + res + "\n" +
-                                   "WEB_TECHNOLOGIES: " + web_tech + "\n" +
-                                   "DISTRIBUTED_SYSTEMS: " + dist_sys + "\n" +
-                                   "DESIGN_AND_ANALYSIS_OF_ALGORITHMS: " + daa + "\n" +
-                                   "MANAGERIAL_ECONOMICS_AND_FINANCIAL_ACCOUNTANCY: " + mefa + "\n" +
-                                   "MOOCS: " + moocs + "\n" +
-                                   "INDUSTRIAL_TRAINING_SKILL_DEVELOP_RESEARCH_PROJECT: " + industrial_training + "\n" +
-                                   "WEB_TECHNOLOGIES_LAB: " + web_tech_lab + "\n" +
-                                   "SGPA :"+sem6Spga + "\n" +
-                                   "No of Backlogs "+back_sem6;
-                     
-                     SendMessage message = new SendMessage();
-                     message.setChatId(chat_id);
-                     message.setText(comb);
-                     try {
-                     	if(over==0)
-                     	{
-                     		execute(message);
-                     	}
-                     } catch (TelegramApiException e) {
-                         e.printStackTrace();
-                     }
-                }
-                
-               
             }
             else
             {
-            	System.out.println("number not updated..");
+            	if(over==0)
+            	{
+            		elseMsg(chat_id);
+            	}
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1112,23 +1101,14 @@ public class Semisters extends B {
     	}
     	
     	double cgpa=0.0;
-    	boolean pr=false;
     	if(c==4)
     	{
     		cgpa=Double.parseDouble(String.format("%.2f", (cgpa1+cgpa2+cgpa3+cgpa4)/4));
     		messageBuilder.append("Total CGPA :").append(cgpa).append("\n");
-    		pr=true;
     	}
     	
     	// Send the message
-    	
-    		sendMsg(chat_id, messageBuilder.toString());
-    	
-    	if(pr==false)
-    	{
-    		sendMsg(chat_id, "Results not Updated..");
-    		System.out.println("overview not updated");
-    	}
+    	sendMsg(chat_id, messageBuilder.toString());
     	
     	over=0;
     	System.out.println(over+"over");

@@ -210,7 +210,7 @@ public class Profile extends Bot{
 			if(rs.next())
 			{
 				String password=rs.getString("Password");
-				System.out.println("password from db "+password);
+				
 				if(password.equals(message_text))
 				{
 					Bot.passValid=0;
@@ -227,25 +227,21 @@ public class Profile extends Bot{
 					
 					System.out.println("profile PassValid "+Bot.passValid +" keyb "+keyb);
 				}
-				else
-				{
-					Bot.passValid=1;
-					System.out.println("in else..");
-					SendMessage msg=new SendMessage();
-					msg.setChatId(chat_id);
-					msg.setText("please enter correct password!!");
-					try {
-		    		    // Execute the single message
-		    		    execute(msg);
-		    		} catch (TelegramApiException e) {
-		    		    e.printStackTrace();
-		    		}
-				}
 				
 			}
 			else
 			{
-				
+				Bot.passValid=1;
+				System.out.println("in else..");
+				SendMessage msg=new SendMessage();
+				msg.setChatId(chat_id);
+				msg.setText("please enter correct password!!");
+				try {
+	    		    // Execute the single message
+	    		    execute(msg);
+	    		} catch (TelegramApiException e) {
+	    		    e.printStackTrace();
+	    		}
 			}
 			
 		}

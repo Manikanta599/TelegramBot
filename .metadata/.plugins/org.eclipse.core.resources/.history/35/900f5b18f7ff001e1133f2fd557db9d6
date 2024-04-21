@@ -20,7 +20,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.mysql.cj.jdbc.PreparedStatementWrapper;
 
-public class Registration extends Bot{
+public class Registration extends B{
 	Connection con;
 	static boolean pre=false;
 	static String id="";
@@ -43,7 +43,7 @@ public class Registration extends Bot{
             	SendMessage message = new SendMessage();
            	 	message.setChatId(chat_id);
            	 	message.setText("User Already Present Please Login!!");
-           	 	Bot.reg=0;
+           	 	B.reg=0;
            	
            	try {
            	     execute(message);
@@ -66,7 +66,7 @@ public class Registration extends Bot{
             		System.out.println("updated ");
             		pre=true;
             		id=message_text;
-            		Bot.rg=1;
+            		B.rg=1;
             	}
             	else {
 					System.out.println("not updated");
@@ -95,7 +95,7 @@ public class Registration extends Bot{
 				if(n>0)
 				{
 					System.out.println("name updated");
-					Bot.nam=1;
+					B.nam=1;
 				}
 				else 
 				{
@@ -125,7 +125,7 @@ public class Registration extends Bot{
 				if(n>0)
 				{
 					System.out.println("email updated");
-					Bot.em=1;
+					B.em=1;
 				}
 				else 
 				{
@@ -155,7 +155,7 @@ public class Registration extends Bot{
 				if(n>0)
 				{
 					System.out.println("phno updated");
-					Bot.ph=1;
+					B.ph=1;
 				}
 				else 
 				{
@@ -186,7 +186,7 @@ public class Registration extends Bot{
 				if(n>0)
 				{
 					System.out.println("phno updated");
-					Bot.pass=1;
+					B.pass=1;
 				}
 				else 
 				{

@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-public class Profile extends Bot{
+public class Profile extends B{
 	
 	Connection con;
 	Semisters ss;
@@ -52,7 +52,7 @@ public class Profile extends Bot{
     	String id=ids;
     	if(id==null)
     	{
-    		Bot.reg=1;
+    		B.reg=1;
     	}
     	stu_id=ids;
     	System.out.println(id);
@@ -66,11 +66,11 @@ public class Profile extends Bot{
        	 message.setChatId(chatid);
        	 reg_id=id;
        	message.setText("Valid user "+" \n"+" Enter Your Password..");
-       	Bot.log=0;
+       	B.log=0;
        	System.out.println(log+"in valid");
        	f=false;
        	
-       	Bot.passValid=1;
+       	B.passValid=1;
        	try {
        	     execute(message);
        	 } catch (TelegramApiException e) {
@@ -84,7 +84,7 @@ public class Profile extends Bot{
           	message.setText("InValid user Try again "+"\n "+"or Register if you don't have account !!");
           	again=1;
           	//B.reg=1;
-          	Bot.log=1;
+          	B.log=1;
           	try {
           	     execute(message);
           	 } catch (TelegramApiException e) {
@@ -162,7 +162,7 @@ public class Profile extends Bot{
 
 	public void regd(long chat_id, String message_text) {
 		// TODO Auto-generated method stub
-		Bot.rg=1;
+		B.rg=1;
 		System.out.println("id "+message_text);
 	}
 
@@ -170,7 +170,7 @@ public class Profile extends Bot{
 
 	public void namer(long chat_id, String message_text) {
 		// TODO Auto-generated method stub
-		Bot.nam=1;
+		B.nam=1;
 		System.out.println("name"+message_text);
 	}
 
@@ -178,7 +178,7 @@ public class Profile extends Bot{
 
 	public void email(long chat_id, String message_text) {
 		// TODO Auto-generated method stub
-		Bot.em=1;
+		B.em=1;
 		System.out.println("email "+message_text);
 		
 	}
@@ -187,7 +187,7 @@ public class Profile extends Bot{
 
 	public void phno(long chat_id, String message_text) {
 		// TODO Auto-generated method stub
-		Bot.ph=1;
+		B.ph=1;
 		System.out.println("phno "+message_text);
 	}
 
@@ -209,43 +209,33 @@ public class Profile extends Bot{
 			
 			if(rs.next())
 			{
-				String password=rs.getString("Password");
-				System.out.println("password from db "+password);
-				if(password.equals(message_text))
-				{
-					Bot.passValid=0;
-					keyb=1;
-					SendMessage msg=new SendMessage();
-					msg.setChatId(chat_id);
-					msg.setText("correct password!!");
-					try {
-		    		    // Execute the single message
-		    		    execute(msg);
-		    		} catch (TelegramApiException e) {
-		    		    e.printStackTrace();
-		    		}
-					
-					System.out.println("profile PassValid "+Bot.passValid +" keyb "+keyb);
-				}
-				else
-				{
-					Bot.passValid=1;
-					System.out.println("in else..");
-					SendMessage msg=new SendMessage();
-					msg.setChatId(chat_id);
-					msg.setText("please enter correct password!!");
-					try {
-		    		    // Execute the single message
-		    		    execute(msg);
-		    		} catch (TelegramApiException e) {
-		    		    e.printStackTrace();
-		    		}
-				}
+				B.passValid=0;
+				keyb=1;
+				SendMessage msg=new SendMessage();
+				msg.setChatId(chat_id);
+				msg.setText("correct password!!");
+				try {
+	    		    // Execute the single message
+	    		    execute(msg);
+	    		} catch (TelegramApiException e) {
+	    		    e.printStackTrace();
+	    		}
 				
+				System.out.println("profile PassValid "+B.passValid +" keyb "+keyb);
 			}
 			else
 			{
-				
+				B.passValid=1;
+				System.out.println("in else..");
+				SendMessage msg=new SendMessage();
+				msg.setChatId(chat_id);
+				msg.setText("please enter correct password!!");
+				try {
+	    		    // Execute the single message
+	    		    execute(msg);
+	    		} catch (TelegramApiException e) {
+	    		    e.printStackTrace();
+	    		}
 			}
 			
 		}
@@ -260,7 +250,7 @@ public class Profile extends Bot{
 	public void ChangePassword(String message_text, long chat_id) {
 		
 		System.out.println("in change password..");
-		Bot.change_pass=0;
+		B.change_pass=0;
 		String query="update profile set Password = ? where id= ?";
 		
 		PreparedStatement pst;

@@ -20,7 +20,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.mysql.cj.jdbc.PreparedStatementWrapper;
 
-public class UpdateM extends Bot{
+public class UpdateM extends B{
 	Connection con;
 	
 	public UpdateM(Connection con)

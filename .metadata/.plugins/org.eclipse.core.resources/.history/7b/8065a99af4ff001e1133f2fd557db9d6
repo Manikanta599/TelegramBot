@@ -211,15 +211,6 @@ public class Profile extends B{
 			{
 				B.passValid=0;
 				keyb=1;
-				SendMessage msg=new SendMessage();
-				msg.setChatId(chat_id);
-				msg.setText("correct password!!");
-				try {
-	    		    // Execute the single message
-	    		    execute(msg);
-	    		} catch (TelegramApiException e) {
-	    		    e.printStackTrace();
-	    		}
 				
 				System.out.println("profile PassValid "+B.passValid +" keyb "+keyb);
 			}
@@ -250,53 +241,6 @@ public class Profile extends B{
 	public void ChangePassword(String message_text, long chat_id) {
 		
 		System.out.println("in change password..");
-		B.change_pass=0;
-		String query="update profile set Password = ? where id= ?";
-		
-		PreparedStatement pst;
-		
-		System.out.println("new password "+message_text +" reg id"+ reg_id);
-		try {
-			pst = con.prepareStatement(query);
-			pst.setString(1, message_text);
-			pst.setString(2, reg_id);
-			
-			int res=pst.executeUpdate();
-			
-			if(res>0)
-			{
-				SendMessage message=new SendMessage();
-        		message.setChatId(chat_id);
-        		message.setText("Password Updated..");
-        		
-        		try {
-					execute(message);
-				} catch (TelegramApiException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			else
-			{
-				SendMessage message=new SendMessage();
-        		message.setChatId(chat_id);
-        		message.setText("Password not updated");
-        		
-        		try {
-					execute(message);
-				} catch (TelegramApiException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		
 		
 	}
 		

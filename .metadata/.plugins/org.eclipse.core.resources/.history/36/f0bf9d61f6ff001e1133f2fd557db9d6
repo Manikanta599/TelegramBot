@@ -211,15 +211,6 @@ public class Profile extends B{
 			{
 				B.passValid=0;
 				keyb=1;
-				SendMessage msg=new SendMessage();
-				msg.setChatId(chat_id);
-				msg.setText("correct password!!");
-				try {
-	    		    // Execute the single message
-	    		    execute(msg);
-	    		} catch (TelegramApiException e) {
-	    		    e.printStackTrace();
-	    		}
 				
 				System.out.println("profile PassValid "+B.passValid +" keyb "+keyb);
 			}

@@ -187,7 +187,7 @@ public class B extends TelegramLongPollingBot {
             	reg=0;
             	SendMessage message = new SendMessage(); 
          		message.setChatId(chat_id);
-         		message.setText("Enter Your Login ID");
+         		message.setText("Enter Your ID");
          		
          		try {
                     execute(message); 
@@ -359,7 +359,7 @@ public class B extends TelegramLongPollingBot {
             	change_pass=1;
             	SendMessage message=new SendMessage();
         		message.setChatId(chat_id);
-        		message.setText("Enter the new Password (Max Length 8)");
+        		message.setText("Enter the new Password..");
         		
         		try {
 					execute(message);

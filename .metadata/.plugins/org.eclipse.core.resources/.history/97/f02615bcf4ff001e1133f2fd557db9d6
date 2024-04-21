@@ -187,7 +187,7 @@ public class B extends TelegramLongPollingBot {
             	reg=0;
             	SendMessage message = new SendMessage(); 
          		message.setChatId(chat_id);
-         		message.setText("Enter Your Login ID");
+         		message.setText("Enter Your ID");
          		
          		try {
                     execute(message); 
@@ -357,16 +357,6 @@ public class B extends TelegramLongPollingBot {
             else if(message_text.equals("Change_Password"))
             {
             	change_pass=1;
-            	SendMessage message=new SendMessage();
-        		message.setChatId(chat_id);
-        		message.setText("Enter the new Password (Max Length 8)");
-        		
-        		try {
-					execute(message);
-				} catch (TelegramApiException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
             	
             }
             else if(change_pass==1)

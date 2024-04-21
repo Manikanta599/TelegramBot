@@ -13,9 +13,9 @@ INDEX VERSION 1.132+C:\TelegramBot\.metadata\.plugins\org.eclipse.jdt.core
 3530075484.index
 866432874.index
 3609022937.index
+928869083.index
 3687810239.index
 3291197563.index
-928869083.index
 360780112.index
 4068061439.index
 2440667304.index
@@ -30,11 +30,11 @@ INDEX VERSION 1.132+C:\TelegramBot\.metadata\.plugins\org.eclipse.jdt.core
 180081986.index
 3859699181.index
 526341766.index
-1017600126.index
 2319933738.index
 1950523871.index
 2046829538.index
 1865797976.index
+1017600126.index
 3720476410.index
 2229860302.index
 4253674844.index

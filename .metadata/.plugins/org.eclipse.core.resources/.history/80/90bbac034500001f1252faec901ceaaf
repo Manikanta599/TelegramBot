@@ -1,0 +1,12 @@
+package com.Telegram.bot.GetObjects;
+
+import com.Telegram.bot.Operations.Notes;
+
+public class GetObject {
+	
+	public Notes getNotesObject()
+	{
+		return Notes notes=(Notes) new Notes();
+	}
+
+}

@@ -1,0 +1,56 @@
+package com.Telegram.bot.GetObjects;
+
+import java.sql.Connection;
+
+import com.Telegram.bot.Operations.Notes;
+import com.Telegram.bot.Operations.NotesImpl;
+import com.Telegram.bot.Operations.Profile;
+import com.Telegram.bot.Operations.ProfileImpl;
+import com.Telegram.bot.Operations.Registration;
+import com.Telegram.bot.Operations.RegistrationImpl;
+import com.Telegram.bot.Operations.Semisters;
+import com.Telegram.bot.Operations.SemistersImpl;
+import com.Telegram.bot.Operations.UpdateImpl;
+import com.Telegram.bot.Operations.UpdateM;
+import com.mysql.cj.x.protobuf.MysqlxCrud.Update;
+
+public class GetObject {
+	Connection con;
+	
+	public Notes getNotesObject() {
+	    // Instantiate an object of type Notes
+	    Notes notes = new NotesImpl();
+	    // Return the object
+	    return notes;
+	}
+	
+	public Profile getProfileObject()
+	{
+		Profile profile= (Profile) new ProfileImpl(con);
+		
+		return profile;
+	}
+	
+	public Registration getRegistrationObject()
+	{
+		Registration registration=(Registration) new RegistrationImpl(con);
+		
+		return registration;
+	}
+	
+	public Semisters getSemistersObject()
+	{
+		Semisters semisters=(Semisters) new SemistersImpl(con);
+		
+		return semisters;
+	}
+	
+	public Update getUpdateObject()
+	{
+		UpdateM update =(UpdateM) new UpdateImpl(con);
+		
+		return update;
+	}
+
+
+}

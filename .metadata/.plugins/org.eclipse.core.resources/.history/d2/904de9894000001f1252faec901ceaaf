@@ -1,0 +1,8 @@
+package com.Telegram.bot;
+
+public interface Notes1 {
+	
+	public void semsView(long chat_id);
+	
+
+}

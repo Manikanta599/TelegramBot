@@ -1,0 +1,17 @@
+package com.Telegram.bot;
+
+public interface Profile1 {
+	
+	public void userValidation(String name,long chatid);
+	
+	public void viewProfile(long chat_id);
+	
+	public void regd(long chat_id, String message_text);
+	
+	public void namer(long chat_id, String message_text);
+	
+	public void email(long chat_id, String message_text);
+	
+	public void phno(long chat_id, String message_text);
+
+}

@@ -1,0 +1,28 @@
+package com.Telegram.bot.Operations;
+
+import java.sql.Connection;
+
+public class AttendenceImpl extends Bot implements Attendence {
+	Connection con;
+	
+	
+
+	public AttendenceImpl(Connection con) {
+		super();
+		this.con = con;
+	}
+
+
+
+	@Override
+	public void attendenceMethod(long chatid, String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	
+	
+
+}

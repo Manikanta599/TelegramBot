@@ -1,0 +1,207 @@
+package com.Telegram.bot.Operations;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.exceptions.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import com.Telegram.bot.Bot;
+import com.mysql.cj.jdbc.PreparedStatementWrapper;
+
+public class RegistrationImpl extends Bot implements Registration{
+	Connection con;
+	static boolean pre=false;
+	static String id="";
+	public RegistrationImpl(Connection con)
+	{
+		this.con=con;
+		
+	}
+	
+	
+
+	public void regdID(long chat_id, String message_text) {
+		
+		try {
+            
+            String query = "SELECT * FROM profile WHERE ID=?";
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setString(1, message_text);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+            	System.out.println("user already presenet");
+            	SendMessage message = new SendMessage();
+           	 	message.setChatId(chat_id);
+           	 	message.setText("User Already Present Please Login!!");
+           	 	Bot.reg=0;
+           	
+           	try {
+           	     execute(message);
+           	 } catch (TelegramApiException e) {
+           	     e.printStackTrace();
+           	 } 	
+            	
+            	}
+            
+            
+            else
+            {
+            	String query1="INSERT INTO profile (ID) values (?)";
+            	PreparedStatement pst1=con.prepareStatement(query1);
+            	pst1.setString(1, message_text);
+            	int n=pst1.executeUpdate();
+            	
+            	if(n>0)
+            	{
+            		System.out.println("updated ");
+            		pre=true;
+            		id=message_text;
+            		Bot.rg=1;
+            	}
+            	else {
+					System.out.println("not updated");
+				}
+            	
+            }
+			}
+		catch (SQLException e) {
+            e.printStackTrace();
+        }
+		
+}
+
+	public void nameReg(long chat_id, String message_text) {
+		// TODO Auto-generated method stub
+		if(pre)
+		{
+			String query="UPDATE profile SET name = ? WHERE ID = ?";
+			
+			try {
+				PreparedStatement pst = con.prepareStatement(query);
+				pst.setString(1, message_text);
+				pst.setString(2, id);
+				
+				int n=pst.executeUpdate();
+				if(n>0)
+				{
+					System.out.println("name updated");
+					Bot.nam=1;
+				}
+				else 
+				{
+					System.out.println("not name updated");
+				}
+			}
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			}
+	}
+
+	public void emailReg(long chat_id, String message_text) {
+		// TODO Auto-generated method stub
+		if(pre)
+		{
+			String query="UPDATE profile SET email = ? WHERE ID = ?";
+			
+			try {
+				PreparedStatement pst = con.prepareStatement(query);
+				pst.setString(1, message_text);
+				pst.setString(2, id);
+				
+				int n=pst.executeUpdate();
+				if(n>0)
+				{
+					System.out.println("email updated");
+					Bot.em=1;
+				}
+				else 
+				{
+					System.out.println("not email updated");
+				}
+			}
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			}
+	}
+
+	public void phnoReg(long chat_id, String message_text) {
+		// TODO Auto-generated method stub
+		if(pre)
+		{
+			String query="UPDATE profile SET phno = ? WHERE ID = ?";
+			
+			try {
+				PreparedStatement pst = con.prepareStatement(query);
+				pst.setString(1, message_text);
+				pst.setString(2, id);
+				
+				int n=pst.executeUpdate();
+				if(n>0)
+				{
+					System.out.println("phno updated");
+					Bot.ph=1;
+				}
+				else 
+				{
+					System.out.println("not phno updated");
+				}
+			}
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			}
+	}
+
+	public void pass_Reg(long chat_id, String message_text) {
+		// TODO Auto-generated method stub
+		
+		if(pre)
+		{
+			String query="UPDATE profile SET Password = ? WHERE ID = ?";
+			
+			try {
+				PreparedStatement pst = con.prepareStatement(query);
+				pst.setString(1, message_text);
+				pst.setString(2, id);
+				
+				int n=pst.executeUpdate();
+				if(n>0)
+				{
+					System.out.println("phno updated");
+					Bot.pass=1;
+				}
+				else 
+				{
+					System.out.println("not phno updated");
+				}
+			}
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			}
+		
+	}
+}

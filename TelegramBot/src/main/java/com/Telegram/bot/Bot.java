@@ -11,11 +11,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.sql.*;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand.*;
+
+import com.Telegram.bot.GetObjects.GetObject;
+import com.Telegram.bot.Operations.*;
 public class Bot extends TelegramLongPollingBot {
 	
-	private static final String url = "jdbc:mysql://localhost:3306/STU_dATA";
-    private static final String username = "root";
-    private static final String password = "root";
+	
     
     
 	static String fname="";
@@ -26,18 +27,20 @@ public class Bot extends TelegramLongPollingBot {
     static int sem_up =0;
     static String sem_name = "";
     static boolean sem_val = false;
-    static int log=0;
-    static int rg=0;
-    static int nam=0;
-    static int em=0;
-    static int ph=0;
-    static int reg=0;
-    static int passValid=0;
+    protected static int log=0;
+    protected static int rg=0;
+    protected static int nam=0;
+    protected static int em=0;
+    protected static int ph=0;
+    protected static int reg=0;
+    protected static int passValid=0;
     static int logout=0;
     static int e=0;
-    static int pass=0;
-    static int change_pass=0;
-    Connection con1;
+    protected static int pass=0;
+    protected static int change_pass=0;
+    
+    Attendence attendence;
+    Registration r;
     @Override
     
     public void onUpdateReceived(Update update) {
@@ -47,22 +50,24 @@ public class Bot extends TelegramLongPollingBot {
     	
     		System.out.println("logout "+logout);
     	
-    	try {
-    		
-			Connection con = DriverManager.getConnection(url, username, password);
-			con1=con;
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+    	
     	
     	System.out.println("0");
-    	Profile p=new Profile(con1);
-    	Semisters sems=new Semisters(con1);
-    	UpdateM up =new UpdateM(con1);
-    	Registration r=new Registration(con1);
-    	Notes notes=new Notes();
+    	
+    	GetObject getobjects=new GetObject();
+    	
+    	Profile p=getobjects.getProfileObject();
+    	
+    	Semisters sems=getobjects.getSemistersObject();
+    	
+    	UpdateM up= getobjects.getUpdateObject();
+    	
+    	r=getobjects.getRegistrationObject();
+    	
+    	Notes notes=getobjects.getNotesObject();
+    	
+    	attendence=getobjects.getAttendenceObject();
+    	
         // We check if the update has a message and the message has text
         if (update.hasMessage() && update.getMessage().hasText()) {
             // Set variables
@@ -108,55 +113,55 @@ public class Bot extends TelegramLongPollingBot {
         	}
            	else {
         		
-                up.semsUpdate(message_text,sem_name,p.stu_id,chat_id);
+                up.semsUpdate(message_text,sem_name,p.getStu_id(),chat_id);
            		}
         	
          }
            
             else if(message_text.equals("sem 1")) {
             	
-            	sems.Sem1(chat_id,p.stu_id);
+            	sems.Sem1(chat_id,p.getStu_id());
             	
             }
             
             else if(message_text.equals("sem 2")) {
             	
-            	sems.Sem2(chat_id,p.stu_id);
+            	sems.Sem2(chat_id,p.getStu_id());
             	
             }
             
             else if(message_text.equals("sem 3")) {
             	
-            	 sems.Sem3(chat_id, p.stu_id);
+            	 sems.Sem3(chat_id, p.getStu_id());
             		
             }
             
             else if(message_text.equals("sem 4")) {
             	
-            	 sems.Sem4(chat_id, p.stu_id);
+            	 sems.Sem4(chat_id, p.getStu_id());
             		
             }
             
             else if(message_text.equals("sem 5")) {
             	
-            	 sems.Sem5(chat_id, p.stu_id);
+            	 sems.Sem5(chat_id, p.getStu_id());
             	
             		
             }
             
             else if(message_text.equals("sem 6")) {
             	
-            	 sems.Sem6(chat_id, p.stu_id);
+            	 sems.Sem6(chat_id, p.getStu_id());
             		
             }
             
             else if(message_text.equals("sem 7")) {
             	
-            	 sems.Sem7(chat_id, p.stu_id);
+            	 sems.Sem7(chat_id,p.getStu_id());
             }
             
             else if(message_text.equals("sem 8")) {
-            	 sems.Sem8(chat_id, p.stu_id);
+            	 sems.Sem8(chat_id, p.getStu_id());
             }
             
             else if(message_text.equals("return")) {
@@ -175,7 +180,7 @@ public class Bot extends TelegramLongPollingBot {
             else if(message_text.equals("Overview"))
             {
             	System.out.println("ovov");
-            	sems.overview(chat_id,p.stu_id);
+            	sems.overview(chat_id,p.getStu_id());
             }
             
             else if(message_text.equals("View Profile"))
@@ -235,8 +240,8 @@ public class Bot extends TelegramLongPollingBot {
                         	System.out.println("3");
                         	lg=1;
                         	first_msg=0;
-                        	p.again=0;
-                        	System.out.println("kyb"+p.keyb);
+                        	p.setAgain(0);
+                        	System.out.println("kyb"+p.getKeyb());
 //                        	if(p.keyb==1)
 //                            {
 //                            	System.out.println("keyboard mmmm");
@@ -313,7 +318,7 @@ public class Bot extends TelegramLongPollingBot {
             else if(message_text.equals("attendence"))
             {
             	System.out.println("att");
-            	attendenceMethod(chat_id,p.stu_id);
+            	attendence.attendenceMethod(chat_id, p.getStu_id());
             }
             else if(message_text.equals("Registration"))
             {
@@ -346,8 +351,8 @@ public class Bot extends TelegramLongPollingBot {
             {
             	p.PassWordValidation(message_text,chat_id);
             	System.out.println("password validation "+passValid);
-            	System.out.println("keyb in B "+p.keyb);
-            	if(p.keyb==1)
+            	System.out.println("keyb in B "+p.getKeyb());
+            	if(p.getKeyb()==1)
                 {
                 	System.out.println("keyboard mmmm");
                  	getMainKeyboardMarkup(chat_id);
@@ -652,49 +657,10 @@ public class Bot extends TelegramLongPollingBot {
     }
     
     
-    private void attendenceMethod(long chatid,String id)
+    public void attendenceMethod(long chatid,String id)
     {
     	
- 		String query="SELECT Attendance FROM attendance WHERE ID=?";
- 		
- 		PreparedStatement pst;
-		try {
-			pst = con1.prepareStatement(query);
-			pst.setString(1, id);
-			ResultSet rs=pst.executeQuery();
-			
-			if(rs.next())
-			{
-				double att=rs.getDouble("Attendance");
-				
-				SendMessage message1 = new SendMessage(); 
-		 		message1.setChatId(chatid);
-		 		message1.setText("your Attendence "+att);
-		 		System.out.println(att);
-		 		try {
-		            execute(message1); 
-		        } catch (TelegramApiException e) {
-		            e.printStackTrace();
-		        }
-				
-				
-			}
-			else
-			{
-				SendMessage message = new SendMessage();
-		   	 	message.setChatId(chatid);
-		   	 	message.setText("Attendence Not Updated Yet!!");
-		   	try {
-		   	     execute(message);
-		   	 } catch (TelegramApiException e) {
-		   	     e.printStackTrace();
-		   	 } 
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+ 		attendence.attendenceMethod(chatid, id);
     }
     
     

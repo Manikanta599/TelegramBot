@@ -1,0 +1,7 @@
+package com.Telegram.bot;
+
+public interface Semisters1 {
+	
+	public void Sem1(long chat_id, String id);
+
+}

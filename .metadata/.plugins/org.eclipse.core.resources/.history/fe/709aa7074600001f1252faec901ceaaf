@@ -1,0 +1,28 @@
+package com.Telegram.bot.GetObjects;
+
+import java.sql.Connection;
+
+import com.Telegram.bot.Operations.Notes;
+import com.Telegram.bot.Operations.NotesImpl;
+import com.Telegram.bot.Operations.Profile;
+import com.Telegram.bot.Operations.ProfileImpl;
+
+public class GetObject {
+	Connection con;
+	
+	public Notes getNotesObject() {
+	    // Instantiate an object of type Notes
+	    Notes notes = new NotesImpl();
+	    // Return the object
+	    return notes;
+	}
+	
+	public Profile getProfileObject()
+	{
+		Profile profile= (Profile) new ProfileImpl(con);
+		
+		return profile;
+	}
+
+
+}

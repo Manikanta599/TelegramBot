@@ -1,0 +1,66 @@
+package com.Telegram.bot;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+public class NotesImpl extends Bot implements Notes1{
+
+	public void semsView(long chat_id) {
+		// TODO Auto-generated method stub
+		SendMessage message = new SendMessage(); 
+ 		message.setChatId(chat_id);
+ 		message.setText("Select Sem..");
+ 		ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+        // Create the keyboard (list of keyboard rows)
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        // Create a keyboard row
+        KeyboardRow row = new KeyboardRow();
+        // Set each button, you can also use KeyboardButton objects if you need something else than text
+        
+        row.add("sem_1");
+        row.add("sem_2");
+        row.add("sem_3");
+        // Add the first row to the keyboard
+        keyboard.add(row);
+        // Create another keyboard row
+        KeyboardRow row2 = new KeyboardRow();
+        row2.add("sem_4");
+        row2.add("sem_5");
+        row2.add("sem_6");
+        
+        keyboard.add(row2);
+        
+        
+        KeyboardRow row3 = new KeyboardRow();
+        row3.add("sem_7");
+        row3.add("sem_8");
+        row3.add("return");
+        
+        keyboard.add(row3);
+        
+        // Set the keyboard to the markup
+        keyboardMarkup.setKeyboard(keyboard);
+        // Add it to the message
+        message.setReplyMarkup(keyboardMarkup);
+        
+        
+ 		
+ 		
+ 		try {
+            execute(message); // Sending our message object to user
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+		
+		
+		
+	}
+	
+	
+
+}

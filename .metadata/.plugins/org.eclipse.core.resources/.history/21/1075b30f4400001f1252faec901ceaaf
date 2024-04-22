@@ -1,0 +1,6 @@
+package com.Telegram.bot1;
+
+public class Snippet {
+	public void pass_Reg(long chat_id, String message_text) 
+}
+

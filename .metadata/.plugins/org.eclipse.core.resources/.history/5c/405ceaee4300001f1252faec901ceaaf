@@ -1,0 +1,17 @@
+package com.Telegram.bot;
+
+public interface Semisters {
+	
+	public void Sem1(long chat_id, String id);
+	public void Sem2(long chat_id, String id);
+	public void Sem3(long chat_id, String id);
+	public void Sem4(long chat_id, String id);
+	public void Sem5(long chat_id, String id);
+	public void Sem6(long chat_id, String id);
+	public void Sem7(long chat_id, String id);
+	public void Sem8(long chat_id, String id);
+	public void updatesems(long chatid);
+	public void overview(long chat_id, String id);
+	
+
+}
